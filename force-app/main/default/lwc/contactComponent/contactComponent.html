@@ -1,0 +1,327 @@
+<!-- sldsValidatorIgnore -->
+<!-- sldsValidatorIgnore -->
+<!-- sldsValidatorIgnore -->
+<!-- sldsValidatorIgnore -->
+<!-- sldsValidatorIgnore -->
+<!-- sldsValidatorIgnore -->
+<!-- sldsValidatorIgnore -->
+<template>
+    <div class="slds-var-m-around_medium">
+        <div class="spinner">
+            <div if:true={isSpinner}>
+                <lightning-spinner
+                    alternative-text="Loading..." variant="brand" size="medium">
+                </lightning-spinner>
+            </div>
+         </div>
+         <div class="slds-box">
+                <h1>1. Is the Contact object connected to other custom objects?</h1>
+                <div if:true={data.relationShipObjectList}>   
+                    <template lwc:if={data.relationShipObjectList}>
+                        <p>Yes,These are the related objects.</p>
+                        <template for:each={relationShipObject} for:item="relationItem" for:index="index">
+                        <div class="slds-p-left_medium" key={relationItem.index}>  
+                            <span>{relationItem.index} - {relationItem.value}</span>
+                        </div>   
+                    </template>
+                    </template>     
+                </div>
+                <div if:true={isRelation}>
+                    <p>The contact object is not related to any other custom objects.</p>
+                </div>
+            <h1>2. How many record types are there in this object?</h1>
+            <div if:true={data.recordTypeList}>   
+                <template lwc:if={data.recordTypeList}>
+                    <p>These are the following record types</p>
+                    <template for:each={recordTypeData} for:item="recordType" for:index="index">
+                        <div class="slds-p-left_medium" key={recordType.index}>  
+                            <span>{recordType.index} - {recordType.value}</span>
+                        </div>   
+                    </template>
+                </template>     
+            </div>
+            <div if:true={isRecordTypes}>
+                <p>No custom record types found</p>
+            </div>
+            <h1>3. How many page layouts are there in this object?</h1>
+            <div if:true={data.pageLayoutList}>   
+                <template lwc:if={data.pageLayoutList}>
+                    <p>“Below are the page layouts against this object:</p>
+                    <template for:each={pageLayoutData} for:item="pageLayoutItem" for:index="index">
+                        <div class="slds-p-left_medium" key={pageLayoutItem.index}>  
+                            <span>{pageLayoutItem.index} - {pageLayoutItem.value}</span>
+                        </div>   
+                    </template>
+                </template>     
+            </div>
+            <div if:true={isPageLayout}>
+                <p>There are no one Page layouts.</p>
+            </div>
+            <h1>4. How many duplicate rules are there in this object?</h1>
+            <div if:true={data.duplicateRulesList}>
+                <div class="slds-p-around_small">
+                    <span><b style="color:#752d06; font-size: 18px;">Duplicate Rules Information</b></span>
+                    <div style="background-color: rgb(242, 242, 242);" class="slds-p-around_small">
+                        <table class="sldc-table"  style="text-align:center;">
+                            <thead>
+                                <tr class="slds-line-height_reset" style="text-align:center;">
+                                        <th style="width: 20%; text-align: left;"> Name </th>
+                                        <th style="width: 20%; text-align: left;"> sObject Type </th>
+                                        <th style="width: 6%; text-align: left;"> Status </th>
+                                        <th style="width: 15%; text-align: left;"> Created By</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={data.duplicateRulesList} for:item="dulicateRule" for:index="index">
+                                    <tr key={dulicateRule.Id} style="padding-top: 1%; padding-bottom: 1%;">
+                                        <td>
+                                            <p>{dulicateRule.MasterLabel}</p>
+                                        </td>
+                                        <td>
+                                            {dulicateRule.SobjectType}
+                                        </td>
+                                        <td>
+                                            {dulicateRule.IsActive}
+                                        </td>
+                                        <td>
+                                            {dulicateRule.CreatedByName}
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div if:true={isDuplicateRule}>
+                <p>There are no duplicate rules active on this object.</p>
+            </div>
+            <h1>5. what are the automations that are used for this object?</h1>
+            <div if:true={data.flowList}>
+                <div class="slds-p-around_small">
+                    <span><b style="color:#752d06; font-size: 18px;">Flows Information</b></span>
+                    <div style="background-color: rgb(242, 242, 242);" class="slds-p-around_small">
+                        <table class="sldc-table"  style="text-align:center;">
+                            <thead>
+                                <tr class="slds-line-height_reset" style="text-align:center;">
+                                    <th style="width: 19%; text-align: left;"> Name </th>
+                                    <th style="width: 4%; text-align: left;"> Status </th>
+                                    <th style="width: 10%; text-align: left;"> Process Type</th>
+                                    <th style="width: 45%; text-align: left;"> Description</th>
+                                    <th style="width: 12%; text-align: left;"> Trigger Object</th>
+                                    <th style="width: 10%; text-align: left;"> Last Modified By</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={data.flowList} for:item="flow" for:index="index">
+                                    <tr key={flow.Id} style="padding-top: 1%; padding-bottom: 1%;">
+                                        <td>
+                                            <p>{flow.Label}</p>
+                                        </td>
+                                        <td>
+                                            {flow.IsActive}
+                                        </td>
+                                        <td>
+                                            {flow.ProcessType}
+                                        </td>
+                                        <td>
+                                            {flow.Description}
+                                        </td>
+                                        <td>
+                                            {flow.TriggerObjectOrEventLabel}
+                                        </td>
+                                        <td>
+                                            {flow.LastModifiedBy}
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div if:true={isFlow}>
+                <p>No flows found related to this object</p>
+            </div>
+            <div if:true={data.triggersList}>
+                <div class="slds-p-around_small">
+                    <span><b style="color:#752d06; font-size: 18px;">Trigger Information</b></span>
+                    <div style="background-color: rgb(242, 242, 242);" class="slds-p-around_small">
+                        <table class="sldc-table"  style="text-align:center;">
+                            <thead>
+                                <tr class="slds-line-height_reset" style="text-align:center;">
+                                        <th style="width: 20%; text-align: left;"> Name </th>
+                                        <th style="width: 20%; text-align: left;"> sObject Type </th>
+                                        <th style="width: 6%; text-align: left;"> Status </th>
+                                        <th style="width: 6%; text-align: left;"> Api Version </th>
+                                        <th style="width: 11%; text-align: left;"> Length Without Comment</th>
+                                        <th style="width: 15%; text-align: left;"> Created By</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={data.triggersList} for:item="items" for:index="index">
+                                    <tr key={items.Id} style="padding-top: 1%; padding-bottom: 1%;">
+                                        <td>
+                                            <p>{items.Name}</p>
+                                        </td>
+                                        <td>
+                                            {items.TableEnumOrId}
+                                        </td>
+                                        <td>
+                                            {items.Status}
+                                        </td>
+                                        <td>
+                                            {items.ApiVersion}
+                                        </td>
+                                        <td>
+                                            {items.LengthWithoutComments}
+                                        </td>
+                                        <td>
+                                            {items.CreatedByName}
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div if:true={isTrigger}>
+                <p>No Triggers found related to this object</p>
+            </div>
+            <h1>6. Are there any validation rules on Contact?</h1>
+            <div if:true={data.validationRule}>
+                <div class="slds-p-around_small">
+                    <span><b style="color:#752d06; font-size: 18px;">Validation Information</b></span>
+                    <div style="background-color: rgb(242, 242, 242);" class="slds-p-around_small">
+                        <table class="sldc-table"  style="text-align:center;">
+                            <thead>
+                                <tr class="slds-line-height_reset" style="text-align:center;">
+                                    <th style="width: 19%; text-align: left;"> Name </th>
+                                    <th style="width: 6%; text-align: left;"> Active </th>
+                                    <th style="width: 15%; text-align: left;"> sObject </th>
+                                    <th style="width: 65%; text-align: left;"> Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={data.validationRule} for:item="validRule" for:index="index">
+                                    <tr key={validRule.name} style="padding-top: 1%; padding-bottom: 1%;">
+                                        <td>
+                                            <p>{validRule.name}</p>
+                                        </td>
+                                        <td>
+                                            {validRule.isActive}
+                                        </td>
+                                        <td>
+                                            {validRule.sObjects}
+                                        </td>
+                                        <td>
+                                            {validRule.description}
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div if:true={isValidationRule}>
+                <p>There are no validation rules on this object</p>
+            </div>
+            <h1>7. What percentage of contacts have activities associated with them?</h1>
+            <div if:true={data.percentageOfActivities}>
+                <template lwc:if={data.percentageOfActivities}>
+                    <p>We have found that {data.percentageOfActivities}% of contacts have activities related to it.</p>
+                </template>
+            </div>
+            <div if:true={isPercentageOfActivities}>
+                <p>We haven't found any activities.</p>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <button class="slds-button slds-button_brand slds-float_right" onclick={handleApexMethod} title="Extract Contact" disabled={isContBtnDsbl}>Extract Contact</button>
+                <button class="slds-button slds-button_brand slds-float_right" onclick={handleRefresh} title="Refresh" style="margin-right: 5px"  disabled={isBtnDsbl}>Refresh</button>
+            </div>
+        </div>
+        
+        <div class="slds-border_top slds-m-top_x-large" style="border-top-color: gray;border-width: medium;">
+            <div class="slds-grid slds-wrap slds-gutters">
+                <div class="slds-col slds-small-size_1-of-1">
+                    <c-dynamic-field-table records={getFieldData} onedit={handleEditRecord} ondelete={handleDeleteRecord} onsave={handleSaveRecordEvent}></c-dynamic-field-table>
+                </div>	
+            </div>
+            <lightning-button class="slds-p-around_xxx-small slds-button_brand" variant="success" label="Add Field" title="Add Field" icon-name="utility:new" onclick={handleContactField}></lightning-button>
+            <button class="slds-button slds-button_brand slds-float_right" onclick={handlScoreMethod} title="Check Score">Check Score</button>
+            <button class="slds-button slds-button_brand slds-float_right" onclick={handleOpenModal} style="margin-right: 5px" title="Send to Diagramming AI">Send to Diagramming AI</button>
+            <button class="slds-button slds-button_brand slds-float_right" onclick={handleUpdateFieldRecord} style="margin-right: 1px" title="Save Record">Save Record</button>   
+
+        </div>
+        
+        <div class="slds-border_top slds-var-m-top_x-large" style="border-top-color: gray;border-width: medium;">
+            <div class="spinner" style="position:relative">
+                <div if:true={isMetricSpinner}>
+                    <lightning-spinner
+                        alternative-text="Loading..." variant="brand" size="medium">
+                    </lightning-spinner>
+                </div>
+             </div>
+             <div if:true={isScoreTable}>
+                <lightning-card  title="Contact Score" icon-name="custom:custom11">
+                    <div class="slds-p-around_small">
+                        <div style="background-color: rgb(242, 242, 242);" class="slds-p-around_small">
+                            <table class="sldc-table"  style="text-align:center;">
+                                <thead>
+                                    <tr class="slds-line-height_reset" style="text-align:center;">
+                                            <th style="width: 40%; text-align: left;"> Metric </th>
+                                            <th style="width: 20%; text-align: left;"> Score </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template iterator:it={scoreData}>
+                                        <tr key={it.value.Id} style="padding-top: 1%; padding-bottom: 1%;">
+                                            <template if:false={it.last}>
+                                                <td>
+                                                    <p>{it.value.Scoring_Rule_Name__c}</p>
+                                                </td>
+                                                <td>
+                                                    {it.value.Output__c}
+                                                </td>
+                                            </template>
+                                            <template if:true={it.last}>
+                                                <td>
+                                                    <p style="color: black;font-weight: bold;font-size: large;">{it.value.Scoring_Rule_Name__c}</p>
+                                                </td>
+                                                <td>
+                                                    <P style="font-weight: bold;font-size: large;">{it.value.Output__c}</P>
+                                                </td>
+                                            </template>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div slot="footer">
+                    </div>
+                </lightning-card>
+             </div>
+        </div>
+    </div>
+    <!-- Open Modal -->
+    <template if:true={isOpenModal}>
+        <!-- <c-company-form-modal modal={isOpenModal} onclose={handleCloseModal}></c-company-form-modal> -->
+        <c-view-lead-component modal={isOpenModal} view-contact-data={viewContactData} onclose={handleCloseModal}></c-view-lead-component>
+    </template>
+     <!-- open field creator modal -->
+     <template if:true={isOpenFieldModal}>
+        <c-interrogation-component is-modal-open={isOpenFieldModal} s-object-name={objectName} onclose={handleCloseModal}></c-interrogation-component>
+    </template>
+     <!-- open field edit modal -->
+     <template if:true={isOpenEditFieldModal}>
+        <c-interrogation-edit-component is-modal-open={isOpenEditFieldModal} record-id={editFieldRecordId} onclose={handleCloseModal}></c-interrogation-edit-component>
+    </template>
+    <template if:true={isFlowOpen}>
+        <!-- Invoke a Screen flow in LWC -->
+        <lightning-flow flow-api-name={flowApiName} onstatuschange={handleStatusChange}></lightning-flow>
+    </template>
+</template>

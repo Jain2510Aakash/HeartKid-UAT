@@ -1,0 +1,63 @@
+<template>
+    <template if:true={records}>
+        <lightning-card   icon-name="utility:questions_and_answers">
+            <div class="slds-p-around_small">
+                <div style="background-color: rgb(242, 242, 242);" class="slds-p-around_small">
+                    <div class="spinner" style="position:relative">
+                        <div if:true={isQuestionSpinner}>
+                            <lightning-spinner
+                                alternative-text="Loading..." variant="brand" size="medium">
+                            </lightning-spinner>
+                        </div>
+                     </div>
+                    <table class="sldc-table"  style="text-align:center;">
+                        <thead>
+                            <tr class="slds-line-height_reset" style="text-align:center;">
+                                    <th style="width: 5%; text-align: left;"> Field Id </th>
+                                    <th style="width: 40%; text-align: left;"> Label </th>
+                                    <th style="width: 20%; text-align: left;"> Input Field </th>
+                                    <th style="width: 5%; text-align: left;"> Action </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={records} for:item="item">
+                                <tr key={item.id}>
+                                    <td>
+                                        <p style="color:red;">{item.field_Id}</p>
+                                    </td>
+                                    <td>
+                                        <p style="color:red;">{item.fieldName}</p>
+                                    </td>
+                                    <td>
+                                        <template lwc:if={item.isText}>
+                                            <lightning-input type="text" variant="label-hidden" data-id={item.id} data-field="text" value={item.value} onchange={handleInputChange}></lightning-input>
+                                        </template>
+                                        <template lwc:elseif={item.isNumber}>
+                                            <lightning-input type="number" variant="label-hidden"  data-id={item.id} data-field="number" value={item.value}  onchange={handleInputChange}></lightning-input>
+                                        </template>
+                                        <template lwc:elseif={item.isCheckbox}>
+                                            <lightning-input type="checkbox" variant="label-hidden" data-id={item.id} data-field="checkbox" value={item.value} checked={item.value} onchange={handleInputChange}></lightning-input>
+                                        </template>
+                                        <template lwc:elseif={item.isPickList}>
+                                            <lightning-combobox data-id={item.id}  variant="label-hidden" data-field="picklist" value={item.value} options={item.options} onchange={handleInputChange}>
+                                            </lightning-combobox>
+                                        </template>
+                                        <template lwc:elseif={item.isMultiPicklist}>
+                                            <lightning-dual-listbox  data-id={item.id} variant="label-hidden"  data-field="multi_picklist" value={item.selectedOptions} label="Select Options" source-label="Available Options" selected-label="Selected Options" options={item.options} onchange={handleInputChange}></lightning-dual-listbox>
+                                        </template>
+                                    </td>
+                                    <td>
+                                        <lightning-button-icon class="slds-m-left_xx-small" data-id={item.id} icon-name="utility:delete" variant="brand" alternative-text="Delete" title="Delete" onclick={handleDeleteRecord}></lightning-button-icon>
+                                        <lightning-button-icon class="slds-m-left_xx-small" data-id={item.id} icon-name="utility:edit" variant="brand" alternative-text="Edit" title="Edit" onclick={handleEditRecord}></lightning-button-icon>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div slot="footer">
+            </div>
+        </lightning-card>
+    </template>
+</template>

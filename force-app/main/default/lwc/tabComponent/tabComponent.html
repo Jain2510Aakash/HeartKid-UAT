@@ -1,0 +1,36 @@
+<!-- tabContainer.html -->
+<template>
+    <!-- <div class="slds-var-m-around_medium"> -->
+    <lightning-card  variant="Narrow">
+        <lightning-tabset>
+            <lightning-tab label="Org Details">
+                <!-- Add lead component here -->
+                <!-- <h1>Hello Lead Page</h1> -->
+                <c-org-details></c-org-details>
+            </lightning-tab>
+            <lightning-tab label="Leads">
+                <!-- Add lead component here -->
+                <!-- <h1>Hello Lead Page</h1> -->
+                <c-lead-component onlead={handleLeadScore} onleaddata={handleLeadData}></c-lead-component>
+            </lightning-tab>
+            <lightning-tab label="Accounts">
+                <c-account-component onaccount={handleAccountScore} onaccountdata={handleAccountData}></c-account-component>
+            </lightning-tab>
+            <lightning-tab label="Contacts">               
+                <c-contact-component oncontact={handleContactScore}></c-contact-component>
+            </lightning-tab>
+            <lightning-tab label="Opportunities">                
+                <c-opportunity-component onopportunity={handleOpportunityScore} onopportunitydata={handleOpportunityData}></c-opportunity-component>
+            </lightning-tab>
+            <!-- <lightning-tab label="Campaigns"> -->
+                <!-- Add campaign component here -->
+                <!-- <h1>Hello Campaigns Page</h1> -->
+                <!-- <c-campaign-component></c-campaign-component> -->
+            <!-- </lightning-tab> -->
+            <lightning-tab label="Summary Report">                
+                <c-summary-component all-object-score ={TotalScores} all-object-data={AllObjectData}></c-summary-component>
+            </lightning-tab>
+        </lightning-tabset>
+    </lightning-card>
+    <!-- </div> -->
+</template>

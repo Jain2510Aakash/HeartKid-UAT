@@ -1,0 +1,59 @@
+<template>
+    <lightning-card title="Duplicate Contacts by Email">
+        <template if:true={hasData}>
+            <template for:each={groupedContacts} for:item="group">
+                <div key={group.email} class="slds-box slds-m-bottom_medium">
+                    <h3 class="slds-text-heading_small">Email Group: {group.email}</h3>
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-m-top_small">
+                        <thead>
+                            <tr>
+                                <th>Contact Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>State</th>
+                                <th>PRM</th>
+                                <th>PSRM</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={group.contacts} for:item="con">
+                                <tr key={con.Id}>
+                                    <td>
+                                        <a href={con.Id} target="_blank">{con.FirstName} {con.LastName}</a>
+                                    </td>
+                                    <td>{con.Email}</td>
+                                    <td>{con.Phone}</td>
+                                    <td>{con.State__c}</td>
+                                    <td>
+                                        <template if:true={con.Primary_Relationship_Manager__r}>
+                                            {con.Primary_Relationship_Manager__r.FirstName} {con.Primary_Relationship_Manager__r.LastName}
+                                        </template>
+                                        <template if:false={con.Primary_Relationship_Manager__r}>
+                                            --
+                                        </template>
+                                    </td>
+                                    <td>
+                                        <template if:true={con.Primary_Support_Relationship_Manager__r}>
+                                            {con.Primary_Support_Relationship_Manager__r.FirstName} {con.Primary_Support_Relationship_Manager__r.LastName}
+                                        </template>
+                                        <template if:false={con.Primary_Support_Relationship_Manager__r}>
+                                            --
+                                        </template>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </template>
+        </template>
+
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+        </template>
+
+        <template if:true={noDuplicates}>
+            <p class="slds-text-color_weak slds-p-around_medium">No duplicate contacts found.</p>
+        </template>
+    </lightning-card>
+</template>

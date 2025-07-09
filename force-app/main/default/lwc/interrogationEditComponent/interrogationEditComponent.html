@@ -1,0 +1,69 @@
+<template>
+    <!--Use template if:true to display/hide popup based on isModalOpen value--> 
+    <template if:true={isModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <div >
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Edit Question</h2>
+                    </div>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <div class={addQuestion}>
+                            <!-- This section is used for number, text and checkbox -->
+                            <div class={otherSectionShowHide}>
+                                <lightning-input class="validate" type="text" variant="standard" data-field="Label__c" value={getFieldData.Label__c} label="Name of Field" required onchange={handleInputs}></lightning-input>
+                            </div>
+                            <br>
+                            <div style="font-weight: bold;">
+                                <p>What is the data type of the response?</p>
+                            </div>  
+                            <div class="slds-grid slds-wrap slds-gutters">        
+                                <div class="slds-col slds-small-size_1-of-1 slds-large-size_1-of-2">
+                                    <lightning-input type="radio" label="Text" name="dataType" data-field="text" value="Text" checked={getFieldData.isText} onchange={handleInputs} ></lightning-input>
+                                </div>
+                                <div class="slds-col slds-small-size_1-of-1 slds-large-size_1-of-2">
+                                    <lightning-input type="radio" label="Number" name="dataType" data-field="number" value="Number" checked={getFieldData.isNumber} onchange={handleInputs}></lightning-input>
+                                </div>
+                                <div class="slds-col slds-small-size_1-of-1 slds-large-size_1-of-2">
+                                    <lightning-input type="radio" label="Checkbox" name="dataType" data-field="checkbox" value="Checkbox" checked={getFieldData.isCheckbox} onchange={handleInputs}></lightning-input>
+                                </div>
+                                <div class="slds-col slds-small-size_1-of-1 slds-large-size_1-of-2">
+                                    <lightning-input type="radio" label="Picklist" name="dataType" data-field="picklist" value="Picklist"  checked={getFieldData.isPicklist} onchange={handleInputs}></lightning-input>
+                                </div>
+                                <div class="slds-col slds-small-size_1-of-1 slds-large-size_1-of-2">
+                                    <lightning-input type="radio" label="Picklist (Multi-Select)" name="dataType" data-field="multi_picklist" value="Picklist (Multi-Select)" checked={getFieldData.isMultiPicklist} onchange={handleInputs}></lightning-input>
+                                </div>
+                            </div>
+                        </div>
+                         <!-- This section is used for picklist and multi picklist field -->
+                         <div if:true={picklistSectionShowHide}>
+                            <div class="slds-grid slds-wrap slds-gutters">
+                                <div class="slds-col slds-small-size_1-of-1 slds-large-size_1-of-2">
+                                    <lightning-textarea class="validate" variant="standard" data-field="Pick_Values__c" value={getFieldData.Pick_Values__c} label="Put picklist Values, seperate them by ;" required onchange={handleInputs}></lightning-textarea>
+                                </div>
+                            </div> 
+                        </div>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <div>
+                        <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button>
+                        <button class="slds-button slds-button_brand" onclick={handleSubmit} title="Save" disabled={isSaveDsbl}>Save</button>
+                    </div>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+ </template>

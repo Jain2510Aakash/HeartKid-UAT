@@ -1,0 +1,24 @@
+.dummy{
+	color : black;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.column {
+    flex: 1;
+	margin-right: 6px;
+}
+
+.item {
+    padding: 8px;
+    margin-bottom: 8px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}
+
+.font {
+	font-weight: bold;
+}

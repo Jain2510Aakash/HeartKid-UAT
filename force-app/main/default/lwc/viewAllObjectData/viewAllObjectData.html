@@ -1,0 +1,65 @@
+<template>
+     <!-- modal start -->      
+   <template if:true={modal}>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+       <div class="slds-modal__container">
+        <!-- modal header start -->
+          <header class="slds-modal__header">
+             <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideModalBox}>
+                <lightning-icon icon-name="utility:close"
+                   alternative-text="close"
+                   variant="inverse"
+                   size="small" ></lightning-icon>
+                <span class="slds-assistive-text">Close</span>
+             </button>
+              <h2 class="slds-text-heading_medium slds-hyphenate">View All Object Data</h2>
+          </header>
+      
+          <!-- modal body start -->
+          <div class="slds-modal__content slds-p-around_medium">
+                <!-- Lead Section -->
+                <div if:true={allObjectScoreData.Lead_Business_Process__c}>
+                    <h1><b>Lead:</b></h1>
+                    <lightning-textarea variant="label-hidden" class="textAreaBody" value={allObjectScoreData.Lead_Business_Process__c} readonly></lightning-textarea>
+                </div>
+                <!-- Account Section -->
+                <div if:true={allObjectScoreData.Account_Business_Process__c}>
+                    <h1><b>Account:</b></h1>
+                    <lightning-textarea variant="label-hidden" class="textAreaBody" value={allObjectScoreData.Account_Business_Process__c} readonly></lightning-textarea>
+                </div>
+                <!-- Contact Section -->
+                <div if:true={allObjectScoreData.Contact_Business_Process__c}>
+                    <h1><b>Contact:</b></h1>
+                    <lightning-textarea variant="label-hidden" class="textAreaBody" value={allObjectScoreData.Contact_Business_Process__c} readonly></lightning-textarea>
+                </div>
+                <!-- Opportunity Section -->
+                <div if:true={allObjectScoreData.Opportunity_Business_Process__c}>
+                    <h1><b>Opportunity:</b></h1>
+                    <lightning-textarea variant="label-hidden" class="textAreaBody" value={allObjectScoreData.Opportunity_Business_Process__c} readonly></lightning-textarea>
+                </div>
+                <!-- Image Url Section -->
+                <div>
+                    <p if:false={spinner} class={imageMsgHide} style="color:darkred">{imageMsg}</p>
+                    <a if:false={spinner} class={eraserUrlHide} href={eraserUrl} target="_blank" style="color: #3366CC">Click here</a>
+                     <div if:true={spinner} class="slds-is-relative">
+                        <lightning-spinner
+                            alternative-text="Api tool generating the diagram..." variant="brand">
+                        </lightning-spinner>
+                    </div>
+                </div>
+          </div>
+
+          <!-- modal footer start-->
+          <footer class="slds-modal__footer">
+            <!-- <button class="slds-button slds-button_brand" onclick={handlePDF}>Generate PDF</button> -->
+             <button class="slds-button slds-button_brand" onclick={hideModalBox}>Cancel</button>
+             <button class="slds-button" onclick={openImageUrl} disabled ={isImageURLBtn}>See Diagram</button>
+          </footer>
+       
+       </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+ </template>
+ <!-- modal end -->
+
+</template>

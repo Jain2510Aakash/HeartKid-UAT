@@ -1,0 +1,22 @@
+.slds-modal__container {
+    max-width: 80rem !important;
+    width: 80% !important;
+    margin-top: 30px;
+}
+.box_scroll {
+    border: 1px solid grey;
+    margin: 4px, 4px;
+    padding: 4px;
+    width: 500px;
+    height: 268px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    /*text-align: justify;*/
+}
+h1 {
+    font-weight: bold;
+    color: red;
+}
+.textAreaBody {
+    --sds-c-textarea-sizing-min-height:175px;
+}

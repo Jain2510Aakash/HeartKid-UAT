@@ -1,0 +1,307 @@
+<!-- sldsValidatorIgnore -->
+<!-- sldsValidatorIgnore -->
+<!-- sldsValidatorIgnore -->
+<template>
+    <div class="slds-var-p-around_medium">
+        <div class="spinner">
+            <div if:true={isSpinner}>
+                <lightning-spinner
+                    alternative-text="Loading..." variant="brand" size="medium">
+                </lightning-spinner>
+            </div>
+         </div>
+        <!-- All Object Score Table Start-->
+        <div if:true={isScore}>
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_1-of-3 circle-lead" style="margin-right: 100px;margin-left: 10%;">
+                        Lead
+                        <br/>
+                        {leadScore}
+                    </div>
+                    <div class="slds-col slds-size_1-of-3 circle-account">
+                        Account
+                        <br/>
+                        {accountScore}
+                    </div>   
+                    <div class="circle-overAllScore" style="margin-left: 26%;margin-top: 5%;">
+                        Overall Score
+                        <br/>
+                        {overAllHealthScore}
+                    </div>  
+                </div>  
+                <div class="slds-grid slds-wrap" style="margin-top: -5%;"> 
+                    <div class="slds-col slds-size_1-of-3 circle-contact" style="margin-right: 100px;margin-left: 21%;">
+                        Contact
+                        <br/>
+                        {contactScore}
+                    </div>
+                    <div class="slds-col slds-size_1-of-3 circle-opportunity">
+                        Opportunity
+                        <br/>
+                        {opportunityScore}
+                    </div>
+                </div>     
+        </div>
+        <!-- All Object Score Table End-->
+        <!-- Record Type Table Start-->
+            <div if:true={recordTypesData}>
+                    <div class="slds-p-around_small">
+                        <span><b style="color:#752d06; font-size: 18px;">Record Types Information</b></span>
+                        <div style="background-color: rgb(242, 242, 242);" class="slds-p-around_small">
+                            <table class="sldc-table"  style="text-align:center;">
+                                <thead>
+                                    <tr class="slds-line-height_reset" style="text-align:center;">
+                                        <th style="width: 20%; text-align: left;"> Name </th>
+                                        <th style="width: 15%; text-align: left;"> sObject Type</th>
+                                        <th style="width: 6%; text-align: left;"> Is Active </th>
+                                        <th style="width: 65%; text-align: left;"> Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={visibleRecordType} for:item="items" for:index="index">
+                                        <tr key={items.Id} style="padding-top: 1%; padding-bottom: 1%;">
+                                            <td>
+                                                <p style="color:red;">{items.Name}</p>
+                                            </td>
+                                            <td>
+                                                {items.SobjectType}
+                                            </td>
+                                            <td>
+                                                {items.IsActive}
+                                            </td>
+                                            <td>
+                                                {items.Description}
+                                            </td>
+                            
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="margin-top: 10px;">
+                            <c-pagination records={recordTypesData} onupdate={updateRecordTypesHandler}></c-pagination>
+                        </div>
+                    </div>
+            </div>   
+        <!-- Record Type Table End -->
+        <!-- Trigger Table Start -->
+        <div if:true={totalTriggers}>
+            <div class="slds-p-around_small">
+                <span><b style="color:#752d06; font-size: 18px;">Triggers Information</b></span>
+                <div style="background-color: rgb(242, 242, 242);" class="slds-p-around_small">
+                    <table class="sldc-table"  style="text-align:center;">
+                        <thead>
+                            <tr class="slds-line-height_reset" style="text-align:center;">
+                                    <th style="width: 20%; text-align: left;"> Name </th>
+                                    <th style="width: 20%; text-align: left;"> sObject Type </th>
+                                    <th style="width: 6%; text-align: left;"> Status </th>
+                                    <th style="width: 6%; text-align: left;"> Api Version </th>
+                                    <th style="width: 11%; text-align: left;"> Length Without Comment</th>
+                                    <th style="width: 15%; text-align: left;"> Created By</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={visibleTriggers} for:item="items" for:index="index">
+                                <tr key={items.Id} style="padding-top: 1%; padding-bottom: 1%;">
+                                    <td>
+                                        <p style="color:red;">{items.Name}</p>
+                                    </td>
+                                    <td>
+                                        {items.TableEnumOrId}
+                                    </td>
+                                    <td>
+                                        {items.Status}
+                                    </td>
+                                    <td>
+                                        {items.ApiVersion}
+                                    </td>
+                                    <td>
+                                        {items.LengthWithoutComments}
+                                    </td>
+                                    <td>
+                                        {items.CreatedByName}
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top: 10px;">
+                            <c-pagination records={totalTriggers} onupdate={updateTriggerHandler}></c-pagination>
+                </div>
+	        </div>
+        </div>
+        <!-- Trigger Table End -->
+         <!-- Apex Classes Table Start -->
+         <div if:true={totalApexClass}>
+            <div class="slds-p-around_small">
+                <span><b style="color:#752d06; font-size: 18px;">Apex Classes Information</b></span>
+                <div style="background-color: rgb(242, 242, 242);" class="slds-p-around_small">
+                    <table class="sldc-table"  style="text-align:center;">
+                        <thead>
+                            <tr class="slds-line-height_reset" style="text-align:center;">
+                                <th style="width: 19%; text-align: left;"> Name </th>
+                                <th style="width: 6%; text-align: left;"> Status </th>
+                                <th style="width: 5%; text-align: left;"> Api Version </th>
+                                <th style="width: 10%; text-align: left;"> Length Without Comment</th>
+                                <th style="width: 15%; text-align: left;"> Created By</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={visibleApexClass} for:item="apex" for:index="index">
+                                <tr key={apex.Id} style="padding-top: 1%; padding-bottom: 1%;">
+                                    <td>
+                                        <p style="color:red;">{apex.Name}</p>
+                                    </td>
+                                    <td>
+                                        {apex.Status}
+                                    </td>
+                                    <td>
+                                        {apex.ApiVersion}
+                                    </td>
+                                    <td>
+                                        {apex.LengthWithoutComments}
+                                    </td>
+                                    <td>
+                                        {apex.CreatedByName}
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top: 10px;">
+                            <c-pagination records={totalApexClass} onupdate={updateApexClassHandler}></c-pagination>
+                </div>
+	        </div>
+        </div>
+        <!-- Apex Classes Table End -->
+        <!-- Validation Table Start -->
+         <div if:true={totalValidation}>
+            <div class="slds-p-around_small">
+                <span><b style="color:#752d06; font-size: 18px;">Validation Information</b></span>
+                <div style="background-color: rgb(242, 242, 242);" class="slds-p-around_small">
+                    <table class="sldc-table"  style="text-align:center;">
+                        <thead>
+                            <tr class="slds-line-height_reset" style="text-align:center;">
+                                <th style="width: 19%; text-align: left;"> Name </th>
+                                <th style="width: 6%; text-align: left;"> Active </th>
+                                <th style="width: 15%; text-align: left;"> sObject </th>
+                                <th style="width: 65%; text-align: left;"> Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={visibleValidaiton} for:item="validRule" for:index="index">
+                                <tr key={validRule.name} style="padding-top: 1%; padding-bottom: 1%;">
+                                    <td>
+                                        <p style="color:red;">{validRule.name}</p>
+                                    </td>
+                                    <td>
+                                        {validRule.isActive}
+                                    </td>
+                                    <td>
+                                        {validRule.sObjects}
+                                    </td>
+                                    <td>
+                                        {validRule.description}
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top: 10px;">
+                            <c-pagination records={totalValidation} onupdate={updateValidationHandler}></c-pagination>
+                </div>
+	        </div>
+        </div>
+        <!-- Validation Table End -->
+        <!-- Flows Table Start -->
+        <div if:true={totalFlows}>
+            <div class="slds-p-around_small">
+                <span><b style="color:#752d06; font-size: 18px;">Flows Information</b></span>
+                <div style="background-color: rgb(242, 242, 242);" class="slds-p-around_small">
+                    <table class="sldc-table"  style="text-align:center;">
+                        <thead>
+                            <tr class="slds-line-height_reset" style="text-align:center;">
+                                <th style="width: 19%; text-align: left;"> Name </th>
+                                <th style="width: 4%; text-align: left;"> Status </th>
+                                <th style="width: 10%; text-align: left;"> Process Type</th>
+                                <th style="width: 45%; text-align: left;"> Description</th>
+                                <th style="width: 12%; text-align: left;"> Trigger Object</th>
+                                <th style="width: 10%; text-align: left;"> Last Modified By</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={visibleFlows} for:item="flow" for:index="index">
+                                <tr key={flow.Id} style="padding-top: 1%; padding-bottom: 1%;">
+                                    <td>
+                                        <p style="color:red;">{flow.Label}</p>
+                                    </td>
+                                    <td>
+                                        {flow.IsActive}
+                                    </td>
+                                    <td>
+                                        {flow.ProcessType}
+                                    </td>
+                                    <td>
+                                        {flow.Description}
+                                    </td>
+                                    <td>
+                                        {flow.TriggerObjectOrEventLabel}
+                                    </td>
+                                    <td>
+                                        {flow.LastModifiedBy}
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top: 10px;">
+                    <c-pagination records={totalFlows} onupdate={updateFlowsHandler}></c-pagination>
+                </div>
+	        </div>
+        </div>
+        <!-- Flows Table End -->
+        <!-- Custom Object Table Start -->
+        <div if:true={totalCustomObject}>
+            <div class="slds-p-around_small">
+                <span><b style="color:#752d06; font-size: 18px;">Custom Objects Information</b></span>
+                <div style="background-color: rgb(242, 242, 242);" class="slds-p-around_small">
+                    <table class="sldc-table"  style="text-align:center;">
+                        <thead>
+                            <tr class="slds-line-height_reset" style="text-align:center;">
+                                <th style="width: 15%; text-align: left;">Name </th>
+                                <th style="width: 65%; text-align: left;">Description </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={visibleCustomObject} for:item="items" for:index="index">
+                                <tr key={items.Id} style="padding-top: 1%; padding-bottom: 1%;">
+                                    <td>
+                                        <p style="color:red;">{items.name}</p>
+                                    </td>
+                                    <td>
+                                        {items.description}
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top: 10px;">
+                            <c-pagination records={totalCustomObject} onupdate={updateCustomObjectHandler}></c-pagination>
+                </div>
+	        </div>
+        </div>
+        <!-- Custom Object Table End -->       
+        <button class="slds-button slds-button_brand slds-float_right" onclick={handleSummary} title="Summary">Summary</button>
+        <button class="slds-button slds-button_brand slds-float_right" style="margin-right: 5px;" onclick={handleViewData} title="View All Object Data">AI Consolidation</button>
+    </div>  
+    <!-- Modal Open -->
+    <template if:true={isOpenModal}>
+        <c-view-all-object-data  modal={isOpenModal} all-object-score-data={aiDiagramData} onclose={handleCloseModal}></c-view-all-object-data>
+    </template>
+</template>

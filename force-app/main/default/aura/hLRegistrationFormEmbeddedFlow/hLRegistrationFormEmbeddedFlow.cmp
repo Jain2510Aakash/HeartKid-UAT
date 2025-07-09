@@ -1,0 +1,5 @@
+<aura:component implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes,lightning:availableForFlowActions" access="GLOBAL">
+    <ltng:require styles="{!$Resource.HLRegistrationFormCSS}" />
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <lightning:flow aura:id="flowData" /> <!--onstatuschange="{!c.handleStatusChange}"-->
+</aura:component>

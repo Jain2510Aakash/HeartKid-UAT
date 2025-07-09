@@ -1,0 +1,66 @@
+<!-- sldsValidatorIgnore -->
+<template>
+    <div class="slds-var-m-around_medium">
+        <div class="spinner">
+            <div if:true={isSpinner}>
+                <lightning-spinner
+                    alternative-text="Loading..." variant="brand" size="medium">
+                </lightning-spinner>
+            </div>
+         </div>
+        <div if:true={orgData}>
+            <div class="container slds-border_bottom" style="border-top-color: gray;border-width: medium;">
+                <div class="column">
+                    <div class="item">
+                        <span class="label font">Org Name:</span> &nbsp;{orgData.Name}
+                    </div>
+
+                    <div class="item" if:true={userWithRulesPer}>
+                        <span class="label font">Active User With Roles:</span>  &nbsp;{userWithRulesPer}%
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="item">
+                        <span class="label font">Org Type:</span>  &nbsp;{orgData.OrganizationType}
+                    </div>
+                    <!-- <div class="item">
+                        <span class="label font">Instance Name:</span>  &nbsp;{orgData.InstanceName}
+                    </div>
+                    <div class="item">
+                        <span class="label font">IsSandbox:</span>  &nbsp;{orgData.isSandbox}
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <!-- profile and user section -->
+        <lightning-card  title="Profiles with number of active users" icon-name="standard:opportunity">
+            <div class="container slds-border_bottom" style="border-top-color: gray;border-width: medium;">
+                <template if:true={profileData}>
+                    <lightning-datatable data={profileData} 
+                    columns={profilsColumn} 
+                    key-field="Id" 
+                    hide-checkbox-column="true"
+                    show-row-number-column="true">
+                    </lightning-datatable>
+                </template>
+            </div>
+            <div slot="footer">
+            </div>
+        </lightning-card>
+        <!-- Org Licenses detail section -->
+        <lightning-card  title="Org Licences" icon-name="standard:opportunity">
+            <div class="container slds-border_bottom" style="border-top-color: gray;border-width: medium;" if:true={licenses}>
+                <template if:true={licenses}>
+                    <lightning-datatable data={licenses} 
+                    columns={columns} 
+                    key-field="Id" 
+                    hide-checkbox-column="true"
+                    show-row-number-column="true">
+                    </lightning-datatable>
+                </template>
+            </div>
+            <div slot="footer">
+            </div>
+        </lightning-card>
+    </div>
+</template>

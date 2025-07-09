@@ -1,0 +1,375 @@
+<!-- sldsValidatorIgnore -->
+<!-- sldsValidatorIgnore -->
+<!-- leadManagementComponent.html -->
+<template>   
+    <!-- <div class="spinner">
+        <div if:true={isSpinner}>
+            <lightning-spinner
+                alternative-text="Loading..." variant="brand" size="medium">
+            </lightning-spinner>
+        </div>
+    </div> -->
+   <!-- modal start -->  
+   <!-- lead view section  -->
+   <template if:true={modal}>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <!-- modal header start -->
+            <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideModalBox}>
+                    <lightning-icon icon-name="utility:close"
+                    alternative-text="close"
+                    variant="inverse"
+                    size="small" ></lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <div if:true={isLeadSection}>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Lead View Form</h2>
+                </div>
+                <div if:true={isAccountSection}>
+                    <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Account View Form</h2>
+                </div>
+                <div if:true={isOpportunitySection}>
+                    <h2 id="modal-heading-03" class="slds-text-heading_medium slds-hyphenate">Opportunity View Form</h2>
+                </div>
+                <div if:true={isContactSection}>
+                    <h2 id="modal-heading-04" class="slds-text-heading_medium slds-hyphenate">Contact View Form</h2>
+                </div>
+            </header>
+            <!-- modal lead body start -->
+            <!-- <div class={leadSection} if:true={viewLeadData}> -->
+                <div class="slds-modal__content slds-p-around_medium modalBodySpinner" style="height: 300px;" id="modal-content-id-1">
+                        <div if:true={isSpinner}>
+                            <lightning-spinner
+                                alternative-text="Loading..." variant="brand" size="medium" class="spinnerClass">
+                            </lightning-spinner>
+                        </div>
+                        <div class="slds-grid slds-gutters">
+                            <!-- Lead Section -->
+                            <div if:true={isLeadSection}>
+                                <div class="slds-col">
+                                    <p style="font-weight: bold">Lead Questions and Answers</p>
+                                   <div class="box_scroll">
+                                       <h2 style="font-weight: bold">Extraction Questions and Answer.</h2>
+                                       <div if:true={viewLeadData.staticFieldValue.percentageOfActivities}>
+                                            <h1>* What percentage of leads have activities associated with them?</h1>
+                                            <template lwc:if={viewLeadData.staticFieldValue.percentageOfActivities}>
+                                                <p>We have found that {viewLeadData.staticFieldValue.percentageOfActivities}% of leads have activities related to it.</p>
+                                            </template>
+                                            <template lwc:else>
+                                                <p>We haven't found any activities.</p>
+                                            </template>
+                                       </div>
+                                       <div if:true={viewLeadData.staticFieldValue.leadStatus}>   
+                                            <h1>* What are the stages of leads?</h1>
+                                            <p>Leads progress going through these status.</p>
+                                            <template for:each={viewLeadData.staticFieldValue.leadStatus} for:item="status" for:index="index">
+                                                <div class="slds-p-left_medium" key={status}>  
+                                                <span>* {status}</span> 
+                                                </div>   
+                                            </template>
+                                        </div>
+                                        <div if:true={viewLeadData.staticFieldValue.isConverted}>
+                                            <h1>* Are leads being converted?</h1>
+                                            <template lwc:if={viewLeadData.staticFieldValue.isConverted}>
+                                              <p>Yes, Leads are converted.</p>
+                                            </template>
+                                            <template lwc:else>
+                                                <p>No, Leads are not converted.</p>
+                                            </template>
+                                       </div>
+                                       <div if:true={viewLeadData.staticFieldValue.leadSource}>
+                                            <h1>* What is the source of leads and how are they distributed?</h1>
+                                            <p>These are the following lead source values. Which are used in lead records.</p>
+                                            <template for:each={leadSource} for:item="item" for:index="index">
+                                                <div class="slds-p-left_medium" key={item.index}>  
+                                                    <span>* {item.Key} : {item.value}</span>
+                                                </div>   
+                                            </template>
+                                       </div>
+                                       <div if:true={viewLeadData.staticFieldValue.relationShipObject}>  
+                                            <h1>* Are Leads used in other custom object?</h1> 
+                                            <template lwc:if={viewLeadData.staticFieldValue.relationShipObject}>
+                                                <p>Yes, these are the related object(s):</p>
+                                                <template for:each={viewLeadData.staticFieldValue.relationShipObject} for:item="relationItem" for:index="index">
+                                                    <div class="slds-p-left_medium" key={relationItem}>  
+                                                    <span>* {relationItem}</span>
+                                                    </div>   
+                                                </template>
+                                            </template> 
+                                       </div>
+                                       <div if:true={viewLeadData.staticFieldValue.recordType}>  
+                                            <h1>* How many record types are there in this object?</h1> 
+                                            <template lwc:if={viewLeadData.staticFieldValue.recordType}>
+                                                <p>These are the following record types:</p>
+                                                <template for:each={viewLeadData.staticFieldValue.recordType} for:item="recordType" for:index="index">
+                                                    <div class="slds-p-left_medium" key={recordType}>  
+                                                    <span>* {recordType}</span>
+                                                    </div>   
+                                                </template>
+                                            </template>     
+                                       </div>
+                                       <div if:true={viewLeadData.staticFieldValue.duplicateRulesList}>
+                                            <h1>* How do you manage and track duplicate leads?</h1>
+                                            <p>There are {leadDuplicateRules} duplicate rules.</p>
+                                        </div>
+                                        <div if:true={leadTriggers}>
+                                            <h1>* Is there Workflow or any other Automations used?</h1>
+                                            <p>There are {leadTriggers} triggers which are related to the account object.</p>
+                                        </div>
+                                        <div if:true={viewLeadData.staticFieldValue.validationRule}>
+                                            <h1>* What validation rules are there against this object</h1>
+                                            <p>There are {leadValidation} validation rules.</p>
+                                        </div>
+                                       <div class="slds-border_top slds-m-top_xx-large" style="border-top-color: gray;border-width: medium;">
+                                        <h2 style="font-weight: bold">Dynamic Questions and Answer.</h2>
+                                            <div if:true={viewLeadData.dynamicFieldValue}>
+                                                <template for:each={viewLeadData.dynamicFieldValue} for:item="item" for:index="index">                                                
+                                                    <div class="slds-p-left_medium" key={item.id}>
+                                                        <h1>* {item.fieldName}</h1>
+                                                        <p>* {item.value}</p>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                       </div>
+                                   </div>
+                                </div>
+                            </div>
+                            <!-- Account Section -->
+                            <div if:true={isAccountSection}>
+                                <div class="slds-col">
+                                    <p style="font-weight: bold">Account Questions and Answers</p>
+                                   <div class="box_scroll">
+                                        <h2 style="font-weight: bold">Extraction Questions and Answer.</h2>
+                                        <div if:true={viewAccountData.staticFieldValue.relationShipObjectList}>
+                                            <h1>* Is the Account object connected to other custom objects?</h1>
+                                            <template lwc:if={viewAccountData.staticFieldValue.relationShipObjectList}>
+                                                <p>Yes,These are the related objects.</p>
+                                                <template for:each={viewAccountData.staticFieldValue.relationShipObjectList} for:item="relationItem" for:index="index">
+                                                    <div class="slds-p-left_medium" key={relationItem}>  
+                                                    <span>* {relationItem}</span>
+                                                    </div>   
+                                                </template>
+                                            </template>  
+                                        </div>
+                                        <div if:true={viewAccountData.staticFieldValue.recordTypeList}>
+                                            <h1>* How many record types are there in this object?</h1>
+                                            <template lwc:if={viewAccountData.staticFieldValue.recordTypeList}>
+                                                <p>These are the following record types.</p>
+                                                <template for:each={viewAccountData.staticFieldValue.recordTypeList} for:item="recordTypeList" for:index="index">
+                                                    <div class="slds-p-left_medium" key={recordTypeList.Id}>  
+                                                    <span>* {recordTypeList.Name}</span>
+                                                    </div>   
+                                                </template>
+                                            </template>  
+                                        </div>
+                                        <div if:true={viewAccountData.staticFieldValue.pageLayoutList}>
+                                            <h1>* How many page layouts are there in this object?</h1>
+                                            <template lwc:if={viewAccountData.staticFieldValue.pageLayoutList}>
+                                                <p>Below are the page layouts against this object:</p>
+                                                <template for:each={viewAccountData.staticFieldValue.pageLayoutList} for:item="pageLayoutList" for:index="index">
+                                                    <div class="slds-p-left_medium" key={pageLayoutList.name}>  
+                                                    <span>* {pageLayoutList.name}</span>
+                                                    </div>   
+                                                </template>
+                                            </template>  
+                                        </div>
+                                        <div if:true={accTriggers}>
+                                            <h1>* What are the triggers which are triggered by relate to the Account object?</h1>
+                                            <p>There are {accTriggers} triggers which are related to the account object.</p>
+                                        </div>
+                                        <div if:true={viewAccountData.staticFieldValue.duplicateRulesList}>
+                                            <h1>* How many duplicate rules are there in this object?</h1>
+                                            <p>There are {accDuplicateRules} duplicate rules.</p>
+                                        </div>
+                                        <div if:true={viewAccountData.staticFieldValue.validationRule}>
+                                            <h1>* Any Validations implemented?</h1>
+                                            <p>There are {accValidation} validation rules.</p>
+                                        </div>
+                                        <div class="slds-border_top slds-m-top_xx-large" style="border-top-color: gray;border-width: medium;">
+                                            <h2 style="font-weight: bold">Dynamic Questions and Answer.</h2>
+                                            <div if:true={viewAccountData.dynamicFieldValue}>
+                                                <template for:each={viewAccountData.dynamicFieldValue} for:item="item" for:index="index">                                                
+                                                    <div class="slds-p-left_medium" key={item.id}>
+                                                        <h1>* {item.fieldName}</h1>
+                                                        <p>* {item.value}</p>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                       </div>
+                                   </div>
+                                </div>
+                            </div>
+                            <!-- Contact Section -->
+                            <div if:true={isContactSection}>
+                                <div class="slds-col">
+                                    <p style="font-weight: bold">Contact Questions and Answers</p>
+                                   <div class="box_scroll">
+                                        <h2 style="font-weight: bold">Extraction Questions and Answer.</h2>
+                                        <div if:true={viewContactData.staticFieldValue.relationShipObjectList}>
+                                            <h1>* Is the Contact object connected to other custom objects?</h1>
+                                            <template lwc:if={viewContactData.staticFieldValue.relationShipObjectList}>
+                                                <p>Yes,These are the related objects.</p>
+                                                <template for:each={viewContactData.staticFieldValue.relationShipObjectList} for:item="relationItem" for:index="index">
+                                                    <div class="slds-p-left_medium" key={relationItem}>  
+                                                    <span>* {relationItem}</span>
+                                                    </div>   
+                                                </template>
+                                            </template>  
+                                        </div>
+                                        <div if:true={viewContactData.staticFieldValue.recordTypeList}>
+                                            <h1>* How many record types are there in this object?</h1>
+                                            <template lwc:if={viewContactData.staticFieldValue.recordTypeList}>
+                                                <p>These are the following record types.</p>
+                                                <template for:each={viewContactData.staticFieldValue.recordTypeList} for:item="recordTypeList" for:index="index">
+                                                    <div class="slds-p-left_medium" key={recordTypeList.Id}>  
+                                                    <span>* {recordTypeList.Name}</span>
+                                                    </div>   
+                                                </template>
+                                            </template>  
+                                        </div>
+                                        <div if:true={viewContactData.staticFieldValue.pageLayoutList}>
+                                            <h1>* How many page layouts are there in this object?</h1>
+                                            <template lwc:if={viewContactData.staticFieldValue.pageLayoutList}>
+                                                <p>“Below are the page layouts against this object:</p>
+                                                <template for:each={viewContactData.staticFieldValue.pageLayoutList} for:item="pageLayoutList" for:index="index">
+                                                    <div class="slds-p-left_medium" key={pageLayoutList.name}>  
+                                                    <span>* {pageLayoutList.name}</span>
+                                                    </div>   
+                                                </template>
+                                            </template>  
+                                        </div>
+                                        <div if:true={viewContactData.staticFieldValue.triggersList}>
+                                            <h1>* what are the automations that are used for this object?</h1>
+                                            <p>There are {contTriggers} triggers which are related to the contact object.</p>
+                                        </div>
+                                        <div if:true={viewContactData.staticFieldValue.duplicateRulesList}>
+                                            <h1>* How many duplicate rules are there in this object?</h1>
+                                            <p>There are {contDuplicateRules} duplicate rules.</p>
+                                        </div>
+                                        <div if:true={viewContactData.staticFieldValue.validationRule}>
+                                            <h1>* Are there any validation rules on Contact?</h1>
+                                            <p>There are {contValidation} validation rules.</p>
+                                        </div>
+                                        <div if:true={viewContactData.staticFieldValue.percentageOfActivities}>
+                                            <h1>* What percentage of contacts have activities associated with them?</h1>
+                                            <p>We have found that {viewContactData.staticFieldValue.percentageOfActivities}% of contacts have activities related to it.</p>
+                                       </div>
+                                        <div class="slds-border_top slds-m-top_xx-large" style="border-top-color: gray;border-width: medium;">
+                                            <h2 style="font-weight: bold">Dynamic Questions and Answer.</h2>
+                                            <div if:true={viewContactData.dynamicFieldValue}>
+                                                <template for:each={viewContactData.dynamicFieldValue} for:item="item" for:index="index">                                                
+                                                    <div class="slds-p-left_medium" key={item.id}>
+                                                        <h1>* {item.fieldName}</h1>
+                                                        <p>* {item.value}</p>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                       </div>
+                                   </div>
+                                </div>
+                            </div>
+                            <!-- Opportunity Section -->
+                            <div if:true={isOpportunitySection}>
+                                <div class="slds-col">
+                                    <p style="font-weight: bold">Opportunity Questions and Answers</p>
+                                    <div class="box_scroll">
+                                        <h2 style="font-weight: bold">Extraction Questions and Answer.</h2>
+                                        <div if:true={viewOpportunityData.staticFieldValue.percentageOfOpporunity}>
+                                            <h1>* Give the percentage of opportunities with products attached to them</h1>
+                                            <template lwc:if={viewOpportunityData.staticFieldValue.percentageOfOpporunity}>
+                                                <p>We have found that {viewOpportunityData.staticFieldValue.percentageOfOpporunity}% of leads have activities related to it.</p>
+                                            </template>
+                                            <template lwc:else>
+                                                <p>We haven't found any opportunity which is related to product.</p>
+                                            </template>
+                                       </div>
+                                       <div if:true={viewOpportunityData.staticFieldValue.percentageOfActivities}>
+                                            <h1>* What percentage of opportunities have activities associated with them?</h1>
+                                            <template lwc:if={viewOpportunityData.staticFieldValue.percentageOfActivities}>
+                                                <p>We have found that {viewOpportunityData.staticFieldValue.percentageOfActivities}% of leads have activities related to it.</p>
+                                            </template>
+                                            <template lwc:else>
+                                                <p>We haven't found any activities.</p>
+                                            </template>
+                                      </div>
+                                       <div if:true={viewOpportunityData.staticFieldValue.opportunityStages}>
+                                            <h1>* What is the path for the opportunity object?</h1>
+                                            <p>Opportunity progress going through these stages.</p>
+                                            <template for:each={viewOpportunityData.staticFieldValue.opportunityStages} for:item="stages" for:index="index">
+                                                <div class="slds-p-left_medium" key={stages}>  
+                                                    <span>* {stages}</span>
+                                                </div>   
+                                            </template>
+                                       </div>
+                                       <div if:true={viewOpportunityData.staticFieldValue.relationShipObject}>  
+                                            <h1>* Is the Opportunity object connected to other custom objects?</h1> 
+                                            <p>Yes,These are the related objects.</p>
+                                            <template for:each={viewOpportunityData.staticFieldValue.relationShipObject} for:item="relationItem" for:index="index">
+                                                <div class="slds-p-left_medium" key={relationItem}>  
+                                                    <span>* {relationItem}</span>
+                                                </div>   
+                                            </template>
+                                       </div>
+                                       <div if:true={viewOpportunityData.staticFieldValue.recordType}>  
+                                            <h1>* How many record types are there in this object</h1> 
+                                            <p>These are the following record types.</p>
+                                            <template for:each={viewOpportunityData.staticFieldValue.recordType} for:item="recordType" for:index="index">
+                                                <div class="slds-p-left_medium" key={recordType.Id}>  
+                                                    <span>{recordType.Name}</span>
+                                                </div>   
+                                            </template>
+                                       </div>
+                                       <div if:true={oppTriggers}>
+                                        <h1>* What are the automations that are used for this object?</h1>
+                                        <p>There are {oppTriggers} triggers which are related to the opportunity object.</p>
+                                       </div>
+                                       <div if:true={viewOpportunityData.staticFieldValue.validationRule}>
+                                        <h1>* What are the validation rule?</h1>
+                                        <p>There are {oppValidation} validation rules.</p>
+                                       </div>
+                                       <div if:true={viewOpportunityData.staticFieldValue.pageLayoutList}> 
+                                            <h1>* How many page layouts are there in this object?</h1>  
+                                            <p>Below are the page layouts against this object:</p>                                            
+                                            <template for:each={viewOpportunityData.staticFieldValue.pageLayoutList} for:item="item" for:index="index">
+                                                <div class="slds-p-left_medium" key={item.name}>  
+                                                    <span>* {item.name}</span>
+                                                </div>   
+                                            </template>       
+                                        </div>
+                                       <div class="slds-border_top slds-m-top_xx-large" style="border-top-color: gray;border-width: medium;">
+                                        <h2 style="font-weight: bold">Dynamic Questions and Answer.</h2>
+                                            <div if:true={viewOpportunityData.dynamicFieldValue}>
+                                                <template for:each={viewOpportunityData.dynamicFieldValue} for:item="item" for:index="index">                                                
+                                                    <div class="slds-p-left_medium" key={item.id}>
+                                                        <h1>* {item.fieldName}</h1>
+                                                        <p>* {item.value}</p>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                       </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col">
+                                <p style="font-weight: bold">Describe the business process to send to the AI diagramming tool.</p>
+                                <lightning-textarea name="bussiness" variant="label-hidden" label="Enter some text" class="textAreaBody" value={diagramBody} onchange={handleInputChange}></lightning-textarea>
+                                <p if:false={isSpinner} class={imageMsgHide} style="color:darkred">{imageMsg}</p>
+                                <a if:false={isSpinner} class={eraserUrlHide} href={eraserUrl} target="_blank" style="color: #3366CC">Eraser Link</a>
+                            </div>
+                        </div>
+                </div>
+            <!-- modal footer start-->
+            <footer class="slds-modal__footer">
+                <button class="slds-button slds-button_neutral" onclick={hideModalBox}>Cancel</button>
+                <button class="slds-button slds-button_neutral" onclick={handleCreateDiagram} disabled= {isCreateDiagramBtnDsbl}>Create Diagram</button>
+                <button class="slds-button" onclick={openImageUrl} disabled ={isImageURLBtn}>View Diagram</button>
+            </footer>
+        
+        </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+   </template>
+   <!-- lead view section End -->
+
+</template>

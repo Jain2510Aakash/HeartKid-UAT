@@ -1,0 +1,99 @@
+flowruntime-lwc-body {
+	background-color: #def1ff !important;
+}
+
+.navigationBar[lwc-3uma98d0eu4] {
+	background-color: #def1ff !important;
+}
+
+.slds-accordion__summary-action {
+	background-color: #def1ff !important;
+	font-size: 18px !important;
+	font-weight: 700 !important;
+}
+
+.slds-accordion__summary {
+	background-color: #def1ff !important;
+}
+
+.slds-form-element__label {
+	font-weight: 700 !important;
+	font-size: 14px !important;
+}
+
+.slds-button_brand {
+	background-color: #EC0413 !important;
+	border-radius: 32px !important;
+	width: 100% !important;
+	box-shadow: 4px 4px 0px rgba(263, 4, 19, 0.12) !important;
+	font-weight: 800 !important;
+	border: 2px solid transparent !important;
+	font-size: 14px !important;
+}
+
+.slds-button_brand:hover {
+	background-color: white !important;
+	border: 2px solid #EC0413 !important;
+	color: #EC0413 !important;
+	transform: none !important;
+}
+
+.slds-button_neutral {
+	background-color: #EC0413 !important;
+	border-radius: 32px !important;
+	width: 100% !important;
+	box-shadow: 4px 4px 0px rgba(263, 4, 19, 0.12) !important;
+	font-weight: 800 !important;
+	border: 2px solid transparent !important;
+	font-size: 14px !important;
+	color: white !important;
+}
+
+.slds-button_neutral:hover {
+	background: #fff !important;
+	border: 2px solid #EC0413 !important;
+	color: #EC0413 !important;
+}
+
+.slds-input {
+	border: 0px !important;
+}
+
+.slds-gutters[lwc-6aa2906q6hj] {
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+span[lwc-4nfn2rc40ch] {
+	background-color: #def1ff !important;
+}
+
+strong[lwc-4nfn2rc40ch] {
+	background-color: #def1ff !important;
+}
+
+/* p[lwc-4nfn2rc40ch] {
+	padding-top: 12px !important;
+	padding-bottom: 12px !important;
+} */
+
+.field-element .container {
+	padding: 0px !important;
+}
+
+.slds-scope .container {
+	width: 100% !important;
+}
+
+#auraErrorMessage {
+	display: none;
+}
+
+.field-element .container h2 {
+	font-size: 14px !important;
+	font-weight: 500 !important;
+}
+
+.slds-form-element__help[lwc-2fb3f2nu4or] {
+	display: none;
+} 
