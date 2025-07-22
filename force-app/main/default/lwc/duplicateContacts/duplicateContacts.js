@@ -1,5 +1,6 @@
 import { LightningElement, track } from 'lwc';
 import getDuplicateContacts from '@salesforce/apex/DuplicateContactController.getDuplicateContacts';
+import { NavigationMixin } from 'lightning/navigation';
 
 export default class DuplicateContacts extends NavigationMixin(LightningElement) {
     @track groupedContacts = [];
@@ -7,6 +8,7 @@ export default class DuplicateContacts extends NavigationMixin(LightningElement)
     @track noDuplicates = false;
 
     connectedCallback() {
+        debugger;
         getDuplicateContacts()
             .then(result => {
                 debugger;
@@ -22,9 +24,11 @@ export default class DuplicateContacts extends NavigationMixin(LightningElement)
     }
 
     get hasData() {
+        debugger;
         return this.groupedContacts.length > 0;
     }
     handleNavigateToContact(event) {
+        debugger;
         const contactId = event.currentTarget.dataset.id;
         this[NavigationMixin.Navigate]({
             type: 'standard__recordPage',
@@ -37,6 +41,7 @@ export default class DuplicateContacts extends NavigationMixin(LightningElement)
     }
 
     getContactUrl(contactId) {
+        debugger;
         return `/lightning/r/Contact/${contactId}/view`;
     }
 }

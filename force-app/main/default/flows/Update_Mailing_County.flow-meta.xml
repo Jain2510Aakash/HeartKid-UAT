@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>57.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>Migrated from the: Update Mailing County workflow rule
+Workflow rule description: If Other Country = &apos;Australia&apos; &amp; Mailing Country is blank, update Mailing Country with &apos;Australia&apos;&quot;</description>
+    <environments>Default</environments>
+    <interviewLabel>Contact_Update Mailing County_upon create {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Contact_Update Mailing County_upon create</label>
+    <migratedFromWorkflowRuleName>Update Mailing County</migratedFromWorkflowRuleName>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>If Other Country = &apos;Australia&apos; &amp; Mailing Country is blank, update Mailing Country with &apos;Australia&apos;</description>
+        <name>mainUpdate</name>
+        <label>Update Mailing Country</label>
+        <locationX>176</locationX>
+        <locationY>311</locationY>
+        <inputAssignments>
+            <field>MailingCountry</field>
+            <value>
+                <stringValue>Australia</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>mainUpdate</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OtherCountry</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Australia</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>MailingCountry</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>Contact</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Draft</status>
+</Flow>

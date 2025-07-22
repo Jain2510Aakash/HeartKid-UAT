@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>60.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>The more leads which have the activities around them the better it is.</description>
+        <name>Add_activities_into_the_score_list</name>
+        <label>Add activities into the list</label>
+        <locationX>182</locationX>
+        <locationY>758</locationY>
+        <assignmentItems>
+            <assignToReference>ScoreList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Score_Record</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Are_leads_being_converted</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Are we using the an appropriet number of record types for your business?</description>
+        <name>Add_business_process_and_record_type_values_into_the_list</name>
+        <label>Add business process and record type values into the list</label>
+        <locationX>182</locationX>
+        <locationY>1298</locationY>
+        <assignmentItems>
+            <assignToReference>ScoreList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Score_Record</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>nterrogation_Question_Int_0034</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Are leads being converted?</description>
+        <name>Add_is_converted_lead_into_list</name>
+        <label>Add is converted lead into list</label>
+        <locationX>182</locationX>
+        <locationY>974</locationY>
+        <assignmentItems>
+            <assignToReference>ScoreList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Score_Record</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Interrogation_Question_Int_0031</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Are you currently using the web-to-lead form</description>
+        <name>Add_Web_To_Lead_into_the_list</name>
+        <label>Add Web To Lead  into the list</label>
+        <locationX>182</locationX>
+        <locationY>1622</locationY>
+        <assignmentItems>
+            <assignToReference>ScoreList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Score_Record</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_all_Score_records</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Are leads being converted?</description>
+        <name>Are_leads_being_converted</name>
+        <label>Are leads being converted?</label>
+        <locationX>182</locationX>
+        <locationY>866</locationY>
+        <assignmentItems>
+            <assignToReference>Score_Record.Scoring_Rule_Name__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Are leads being converted?</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Score_Record.Object_Type__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Lead</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Score_Record.Rule__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>If Lead Converted then 10 otherwise 5</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Score_Record.Output__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>If_Lead_Is_Converted</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Add_is_converted_lead_into_list</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Are we using the an appropriet number of record types for your business?</description>
+        <name>Are_we_using_the_an_appropriet_number_of_record_types_for_your_business</name>
+        <label>Are we using the an appropriet number of record types for your business?</label>
+        <locationX>182</locationX>
+        <locationY>1190</locationY>
+        <assignmentItems>
+            <assignToReference>Score_Record.Scoring_Rule_Name__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Are we using the an appropriate number of record types for your business?</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Score_Record.Object_Type__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Lead</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Score_Record.Rule__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Business_Process-record_type</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Score_Record.Output__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>BusinessPorcess_And_RecordType_Result</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Add_business_process_and_record_type_values_into_the_list</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Are you currently using the web-to-lead form</description>
+        <name>Are_you_currently_using_the_web_to_lead_form</name>
+        <label>Are you currently using the web-to-lead form</label>
+        <locationX>182</locationX>
+        <locationY>1514</locationY>
+        <assignmentItems>
+            <assignToReference>Score_Record.Scoring_Rule_Name__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Are you currently using the web-to-lead form</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Score_Record.Object_Type__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Lead</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Score_Record.Rule__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Web To lead</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Score_Record.Output__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>WebToLead</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Add_Web_To_Lead_into_the_list</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>The more leads which have the activities around them the better it is.</description>
+        <name>The_more_leads_which_have_the_activities_around_them_the_better_it_is</name>
+        <label>The more leads which have the activities around them the better it is.</label>
+        <locationX>182</locationX>
+        <locationY>650</locationY>
+        <assignmentItems>
+            <assignToReference>Score_Record.Scoring_Rule_Name__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Are activities used on the lead object? What percentage of leads have atleast 1 activity attached to them?</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Score_Record.Object_Type__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Lead</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Score_Record.Rule__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>1% = 0.1</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Score_Record.Output__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>If_Activities_Being_Used</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Add_activities_into_the_score_list</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Check_If_Record_Exist</name>
+        <label>Check If Record Exist</label>
+        <locationX>182</locationX>
+        <locationY>242</locationY>
+        <defaultConnector>
+            <targetReference>Assist_Question_Answer</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>False</defaultConnectorLabel>
+        <rules>
+            <name>True</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Salesforce_Assist_Score_Records</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Delete_All_Score_Records</targetReference>
+            </connector>
+            <label>True</label>
+        </rules>
+    </decisions>
+    <description>This flow will calculate score behalf of lead object.</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>This formula give the execte value based on Business Process and Record Type.</description>
+        <name>BusinessPorcess_And_RecordType_Result</name>
+        <dataType>Number</dataType>
+        <expression>IF(
+    {!BusinessProcess_RecordType} = 0, 
+    10,
+    IF(
+        AND({!BusinessProcess_RecordType} &gt; 0, {!BusinessProcess_RecordType} &lt;= 2), 
+        7,
+        IF(
+            AND({!BusinessProcess_RecordType} &gt; 2, {!BusinessProcess_RecordType} &lt;= 4), 
+            4,
+            IF(
+                {!BusinessProcess_RecordType} &gt;= 5, 
+                0,
+                null
+            )
+        )
+    )
+)</expression>
+        <scale>0</scale>
+    </formulas>
+    <formulas>
+        <description>No. of Business Process - No. of Record Type</description>
+        <name>BusinessProcess_RecordType</name>
+        <dataType>Number</dataType>
+        <expression>ABS({!Assist_Question_Answer.Lead_Q_6__c}-value({!Interrogation_Question_Int_0031.Value__c}))</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>If_Activities_Being_Used</name>
+        <dataType>Number</dataType>
+        <expression>{!Assist_Question_Answer.Lead_Q_1__c}/10</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
+        <description>Are leads being converted?</description>
+        <name>If_Lead_Is_Converted</name>
+        <dataType>Number</dataType>
+        <expression>IF({!Assist_Question_Answer.Lead_Q_3__c}, 10, 5)</expression>
+        <scale>0</scale>
+    </formulas>
+    <formulas>
+        <name>WebToLead</name>
+        <dataType>Number</dataType>
+        <expression>IF({!nterrogation_Question_Int_0034.Value__c} = &apos;true&apos;, 10, 5)</expression>
+        <scale>0</scale>
+    </formulas>
+    <interviewLabel>Score Calculator {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Lead Score Calculator</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordCreates>
+        <name>Create_all_Score_records</name>
+        <label>Create all Score records</label>
+        <locationX>182</locationX>
+        <locationY>1730</locationY>
+        <inputReference>ScoreList</inputReference>
+    </recordCreates>
+    <recordDeletes>
+        <name>Delete_All_Score_Records</name>
+        <label>Delete All Score Records</label>
+        <locationX>50</locationX>
+        <locationY>350</locationY>
+        <connector>
+            <targetReference>Assist_Question_Answer</targetReference>
+        </connector>
+        <inputReference>Salesforce_Assist_Score_Records</inputReference>
+    </recordDeletes>
+    <recordLookups>
+        <description>We will retrieve the question answers from the &quot;Salesforce Assist Question/Answer&quot; object.</description>
+        <name>Assist_Question_Answer</name>
+        <label>Assist Question/Answer</label>
+        <locationX>182</locationX>
+        <locationY>542</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>The_more_leads_which_have_the_activities_around_them_the_better_it_is</targetReference>
+        </connector>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Salesforce_Assist_Question_Answer__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>How many business process are there in the lead?</description>
+        <name>Interrogation_Question_Int_0031</name>
+        <label>Interrogation Question Int-0031</label>
+        <locationX>182</locationX>
+        <locationY>1082</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Are_we_using_the_an_appropriet_number_of_record_types_for_your_business</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Object_Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Lead</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Int-0031</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Interrogation__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Are you currently using the web-to-lead form</description>
+        <name>nterrogation_Question_Int_0034</name>
+        <label>nterrogation Question Int-0034</label>
+        <locationX>182</locationX>
+        <locationY>1406</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Are_you_currently_using_the_web_to_lead_form</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Object_Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Lead</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Int-0034</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Interrogation__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Salesforce_Assist_Score_Records</name>
+        <label>Salesforce Assist Score Records</label>
+        <locationX>182</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_If_Record_Exist</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Object_Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Lead</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Salesforce_Assist_Score__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Salesforce_Assist_Score_Records</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>If activities are being used anywhere in the LEADS object.</description>
+        <name>Lead_Q1</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>2</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <description>This variable is used to store the value which is coming through the lwc.</description>
+        <name>ObjactName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>Score_Record</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Salesforce_Assist_Score__c</objectType>
+    </variables>
+    <variables>
+        <name>ScoreList</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Salesforce_Assist_Score__c</objectType>
+    </variables>
+</Flow>

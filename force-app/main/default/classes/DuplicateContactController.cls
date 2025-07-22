@@ -6,7 +6,7 @@ public with sharing class DuplicateContactController {
         for (Contact con : [SELECT Id, FirstName, LastName, Email, Phone,State__c,Primary_Relationship_Manager__r.FirstName,Primary_Relationship_Manager__r.LastName,Primary_Support_Relationship_Manager__r.FirstName,Primary_Support_Relationship_Manager__r.LastName
                             FROM Contact
                             WHERE Email != null
-                            ORDER BY Email, LastModifiedDate DESC limit 1000]) {
+                            ORDER BY Email, LastModifiedDate]) {
                                 if (!emailToContacts.containsKey(con.Email)) {
                                     emailToContacts.put(con.Email, new List<Contact>());
                                 }

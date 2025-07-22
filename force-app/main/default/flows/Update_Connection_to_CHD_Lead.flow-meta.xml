@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>60.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>path_a_bereaved_family_member_or_friend</name>
+        <label>path a bereaved family member or friend</label>
+        <locationX>1568</locationX>
+        <locationY>863</locationY>
+        <defaultConnector>
+            <targetReference>path_a_community_member</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>a_bereaved_family_member_or_friend</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Connection_to_CHD_used_in_web_forms__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>a bereaved family member or friend</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Heart_kid_Beareaved_Family_Member</targetReference>
+            </connector>
+            <label>a bereaved family member or friend</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>path_a_community_member</name>
+        <label>path a community member</label>
+        <locationX>1766</locationX>
+        <locationY>971</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>a_community_member</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Connection_to_CHD_used_in_web_forms__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>a community member</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>community_member</targetReference>
+            </connector>
+            <label>a community member</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>path_a_family_member_or_friend_of_a_Heart_Kid</name>
+        <label>path a family member or friend of a Heart Kid</label>
+        <locationX>1337</locationX>
+        <locationY>755</locationY>
+        <defaultConnector>
+            <targetReference>path_a_bereaved_family_member_or_friend</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>a_family_member_or_friend_of_a_Heart_Kid</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Connection_to_CHD_used_in_web_forms__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>a family member or friend of a Heart Kid</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Heart_kid_extended_family</targetReference>
+            </connector>
+            <label>a family member or friend of a Heart Kid</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>path_a_Young_person_with_a_heart_condition</name>
+        <label>path a Young person with a heart condition</label>
+        <locationX>833</locationX>
+        <locationY>539</locationY>
+        <defaultConnector>
+            <targetReference>path_an_Adult_with_a_heart_condition</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>a_Young_person_with_a_heart_condition</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Connection_to_CHD_used_in_web_forms__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>a Young person with a heart condition</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Heart_kid</targetReference>
+            </connector>
+            <label>a Young person with a heart condition</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>path_an_Adult_with_a_heart_condition</name>
+        <label>path an Adult with a heart condition</label>
+        <locationX>1089</locationX>
+        <locationY>647</locationY>
+        <defaultConnector>
+            <targetReference>path_a_family_member_or_friend_of_a_Heart_Kid</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>an_Adult_with_a_heart_condition</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Connection_to_CHD_used_in_web_forms__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>an Adult with a heart condition</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Heart_kid_adult</targetReference>
+            </connector>
+            <label>an Adult with a heart condition</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>path_Healthcare_Professional</name>
+        <label>path_Healthcare Professional</label>
+        <locationX>311</locationX>
+        <locationY>323</locationY>
+        <defaultConnector>
+            <targetReference>pathaParentorCarer</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>a_Health_Professional</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Connection_to_CHD_used_in_web_forms__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>a Health Professional</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Health_Professional</targetReference>
+            </connector>
+            <label>a Health Professional</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>pathaParentorCarer</name>
+        <label>path a Parent or Carer</label>
+        <locationX>573</locationX>
+        <locationY>431</locationY>
+        <defaultConnector>
+            <targetReference>path_a_Young_person_with_a_heart_condition</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>a_Parent_or_Carer</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Connection_to_CHD_used_in_web_forms__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>a Parent or Carer</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Heart_Kid_Parent_Carer</targetReference>
+            </connector>
+            <label>a Parent or Carer</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <interviewLabel>Update Connection to CHD (Lead) {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Update Connection to CHD (Lead)</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>community_member</name>
+        <label>Community Member</label>
+        <locationX>1634</locationX>
+        <locationY>1079</locationY>
+        <inputAssignments>
+            <field>Personal_Connection_to_CHD__c</field>
+            <value>
+                <stringValue>Community Member</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Health_Professional</name>
+        <label>Health Professional</label>
+        <locationX>50</locationX>
+        <locationY>431</locationY>
+        <inputAssignments>
+            <field>Professional_Connection_to_CHD__c</field>
+            <value>
+                <stringValue>Health Professional</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Heart_kid</name>
+        <label>Heart kid</label>
+        <locationX>578</locationX>
+        <locationY>647</locationY>
+        <inputAssignments>
+            <field>Personal_Connection_to_CHD__c</field>
+            <value>
+                <stringValue>Heart Kid</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Heart_kid_adult</name>
+        <label>Heart kid adult</label>
+        <locationX>842</locationX>
+        <locationY>755</locationY>
+        <inputAssignments>
+            <field>Personal_Connection_to_CHD__c</field>
+            <value>
+                <stringValue>Heart Kid Adult</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Heart_kid_Beareaved_Family_Member</name>
+        <label>Heart kid Beareaved Family Member</label>
+        <locationX>1370</locationX>
+        <locationY>971</locationY>
+        <inputAssignments>
+            <field>Personal_Connection_to_CHD__c</field>
+            <value>
+                <stringValue>Heart kid Beareaved Family Member</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Heart_kid_extended_family</name>
+        <label>Heart kid extended family</label>
+        <locationX>1106</locationX>
+        <locationY>863</locationY>
+        <inputAssignments>
+            <field>Personal_Connection_to_CHD__c</field>
+            <value>
+                <stringValue>Heart Kid Extended Family</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Heart_Kid_Parent_Carer</name>
+        <label>Heart Kid Parent/Carer</label>
+        <locationX>314</locationX>
+        <locationY>539</locationY>
+        <inputAssignments>
+            <field>Personal_Connection_to_CHD__c</field>
+            <value>
+                <stringValue>Heart Kid Parent/Carer</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>185</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>path_Healthcare_Professional</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Connection_to_CHD_used_in_web_forms__c</field>
+            <operator>IsChanged</operator>
+        </filters>
+        <object>Lead</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

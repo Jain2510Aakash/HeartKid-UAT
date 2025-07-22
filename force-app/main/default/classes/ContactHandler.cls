@@ -5,12 +5,19 @@
 *     Change log
 
 *     Author            Date            Description
+*	Aakash Jain			11-July-2025	added logic to update PSRM on contact from latest case
 * ==============================================================================================================================================================
 *
-*/public class ContactHandler {
+*/
+public class ContactHandler {
+    public static Boolean isMerging = false;
     
     public static void afterInsertAndUpdate(Map<Id, Contact> oldMap, Map<Id, Contact> newMap){
+        system.debug('afterInsertAndUpdate in contacthandler');
         set<Id> contactIds = new Set<Id>();
+        set<Id> newContactIds = new Set<Id>();
+        List<Contact> contactListToUpdatePSRM = new List<Contact>();
+        
         try {
             for (Contact con : newMap.values()) {
                 Boolean isChanged = false;
@@ -20,6 +27,7 @@
                     if (con.Personal_Connection_to_CHD__c != null) {
                         isChanged = true;
                     }
+                    newContactIds.add(con.Id);
                 } else if (Trigger.isUpdate && oldMap != null && oldMap.containsKey(con.Id)) {
                     Contact oldCon = oldMap.get(con.Id);
                     
@@ -44,13 +52,33 @@
             if(!contactIds.isEmpty()){
                 ContactHandlerHelper.fillPrimarySecondaryDetails(contactIds);
             }
+            if(!newContactIds.isEmpty()){
+                List<Contact> contactListwithcases = [Select Id,Primary_Support_Relationship_Manager__c,(Select Id,OwnerId From Cases order by CreatedDate Desc limit 1) From Contact where ID In : newContactIds ];
+                if(!contactListwithcases.isEmpty()){
+                    for(Contact contactRec : contactListwithcases){
+                        if(contactRec.Cases != null){
+                            Contact conToUpdatePSRM = new Contact();
+                            conToUpdatePSRM.Id = contactRec.Id;
+                            conToUpdatePSRM.Primary_Support_Relationship_Manager__c = contactRec.Cases[0].ownerId;
+                            contactListToUpdatePSRM.add(conToUpdatePSRM);
+                        }
+                    }
+                    if(!contactListToUpdatePSRM.isEmpty()){
+                        database.update(contactListToUpdatePSRM, false);
+                    }
+                }
+            }
         } catch (Exception e) {
             System.debug('Error in afterInsertAndUpdate : ' + e.getMessage());
         }
     }
     
+    
+    
     public static void afterUpdate(Map<Id, Contact> oldMap, Map<Id, Contact> newMap){
+        system.debug('afterUpdate');
         set<Id> contactIdSet = new Set<Id>();
+        set<Id> contactIdSetUpdatedMailingState = new Set<Id>();
         Map<string, string> contactIdByOwnerId = new Map<String, String>();
         
         for (Contact newCon : newMap.Values()) {
@@ -60,9 +88,17 @@
                 contactIdSet.add(newCon.ID);
                 contactIdByOwnerId.put(newCon.ID, newCon.Ownerid);
             }
+            if(newCon.MailingState != oldCon.MailingState && newCon.MailingState != null){
+                contactIdSetUpdatedMailingState.add(newCon.Id);
+            }
         }
         if(!contactIdSet.isEmpty()){
+            system.debug('Calling createFollowupTaskForSupport1on1');
             ContactHandlerHelper.createFollowupTaskForSupport1on1(contactIdSet, contactIdByOwnerId);
+        }
+        if(!contactIdSetUpdatedMailingState.isEmpty()){
+            system.debug('Calling populatePRMonContact from contact trigger');
+            ContactHandlerHelper.populatePRMonContact(contactIdSetUpdatedMailingState);
         }
     }
 }

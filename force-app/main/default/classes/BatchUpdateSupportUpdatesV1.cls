@@ -15,7 +15,7 @@ public class BatchUpdateSupportUpdatesV1 implements Database.Batchable<SObject>,
         
         // Query all Cases where ContactId is not null
         if(!test.isRunningTest()){
-            return Database.getQueryLocator([SELECT Id, Name, Support_Updates__c, npsp__Do_Not_Contact__c FROM Contact where Support_Updates__c = true and npsp__Do_Not_Contact__c = true]);
+            return Database.getQueryLocator([SELECT Id, Name, Support_Updates__c, npsp__Do_Not_Contact__c FROM Contact where Support_Updates__c = true and (npsp__Do_Not_Contact__c = true or HasOptedOutOfEmail = true)]);
         }else{
             return Database.getQueryLocator([SELECT Id, Name, Support_Updates__c, npsp__Do_Not_Contact__c FROM Contact limit 5]);
         }

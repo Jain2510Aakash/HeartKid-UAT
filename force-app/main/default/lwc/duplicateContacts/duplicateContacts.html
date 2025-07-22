@@ -19,7 +19,7 @@
                             <template for:each={group.contacts} for:item="con">
                                 <tr key={con.Id}>
                                     <td>
-                                        <a href={con.Id} target="_blank">{con.FirstName} {con.LastName}</a>
+                                        <a href="javascript:void(0);" data-id={con.Id} onclick={handleNavigateToContact} >{con.FirstName} {con.LastName}</a>
                                     </td>
                                     <td>{con.Email}</td>
                                     <td>{con.Phone}</td>

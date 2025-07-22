@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>57.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>Migrated from the: Update Contact Birthdate with Converted Lead&apos;s Birthdate workflow rule
+Workflow rule description: Standard Lead Birthdate field does not map automatically to Stand Contact Birthdate field. 
+Standard Lead Birthdate field maps to custom Contact &apos;Converted Leads Birthdate&apos; field then this WF update the Standard Contact Birthdate field with that value&quot;</description>
+    <environments>Default</environments>
+    <interviewLabel>Contact_Update Birthdate with Converted Lead&apos;s Birthdate_upon create {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Contact_Update Birthdate with Converted Lead&apos;s Birthdate_upon create</label>
+    <migratedFromWorkflowRuleName>Update Contact Birthdate with Converted Lead&apos;s Birthdate</migratedFromWorkflowRuleName>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>mainUpdate</name>
+        <label>Update Contact with Lead&apos;s Birthdate value</label>
+        <locationX>176</locationX>
+        <locationY>311</locationY>
+        <inputAssignments>
+            <field>Birthdate</field>
+            <value>
+                <elementReference>$Record.Converted_Leads_Birthdate__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>mainUpdate</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Converted_Leads_Birthdate__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <object>Contact</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Draft</status>
+</Flow>
