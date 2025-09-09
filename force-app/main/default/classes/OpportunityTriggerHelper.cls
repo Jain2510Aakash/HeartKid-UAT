@@ -1,5 +1,5 @@
 public class OpportunityTriggerHelper {
-    public static void populatePRMonContact(set<Id> insertedOppIds, Set<Id> updatedOppIds){
+   /* public static void populatePRMonContact(set<Id> insertedOppIds, Set<Id> updatedOppIds){
         set<string> usernameSet = new Set<String>();
         List<Contact> contactListToUpdate = new List<Contact>();
         Map<String,String> stateByUsernameMap = new Map<String, String>();
@@ -15,8 +15,8 @@ public class OpportunityTriggerHelper {
         system.debug('fundPRMMDT->'+fundPRMMDT);
         if(!fundPRMMDT.isEmpty()){
             for(Fundraising_PRM__mdt mdtRec : fundPRMMDT){
-                stateByUsernameMap.put(mdtRec.State__c, mdtRec.Fundraising_Coordinator__c+'.girikondev');
-                string username = ContactHandlerHelper.getBaseUsername(mdtRec.Fundraising_Coordinator__c)+'.girikondev';
+                stateByUsernameMap.put(mdtRec.State__c, mdtRec.Fundraising_Coordinator__c+'.girikonpar');
+                string username = ContactHandlerHelper.getBaseUsername(mdtRec.Fundraising_Coordinator__c)+'.girikonpar';
                 usernameSet.add(username);
             }
             system.debug('usernameSet->'+usernameSet);
@@ -51,5 +51,5 @@ public class OpportunityTriggerHelper {
             Contact conAfterUpdate = [Select Id,Name,Primary_Relationship_Manager__c From Contact Where Id=:contactListToUpdate[0].Id];
             system.debug('contactListToUpdate in opp trigger'+conAfterUpdate);
         }
-    }
+    }*/
 }

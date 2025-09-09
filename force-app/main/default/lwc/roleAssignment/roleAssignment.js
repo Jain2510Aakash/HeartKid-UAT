@@ -52,6 +52,7 @@ export default class RoleAssignment extends LightningElement {
     }
 
     handleChange(event) {
+        debugger;
         const name = event.target.name;
         const value = event.detail.value;
 
@@ -60,11 +61,16 @@ export default class RoleAssignment extends LightningElement {
 
         if (name === 'object') {
             this.objName = value;
+            this.fieldName = '';
+            this.fromUser = '';
+            this.toUser = '';
         } else if (name === 'field') {
             this.fieldName = value;
             this.fromUser = '';
+            this.toUser = '';
         } else if (name === 'fromUser') {
             this.fromUser = value;
+            this.toUser = '';
         } else if (name === 'toUser') {
             this.toUser = value;
         }
@@ -87,11 +93,10 @@ export default class RoleAssignment extends LightningElement {
             this.isLoading = true;
             getFromUserList({ objName: this.objName, fieldName: this.fieldName })
                 .then(result => {
-                    this.fromUsersList = result.map(record => {
-                        const related = record[this.parentField];
+                    this.fromUsersList = result.map(user => {
                         return {
-                            label: related?.Name || 'Unknown',
-                            value: related?.Id || ''
+                            label: user.Name,
+                            value: user.Id
                         };
                     });
                     console.log('fromUsersList:', this.fromUsersList);
@@ -99,8 +104,9 @@ export default class RoleAssignment extends LightningElement {
                 })
                 .catch(error => {
                     console.error('Error fetching from user list:', error);
-                }).finally(() => {
-                    this.isLoading = false; // ✅ Hide spinner when done
+                })
+                .finally(() => {
+                    this.isLoading = false; // Hide spinner when done
                 });
         }
     }

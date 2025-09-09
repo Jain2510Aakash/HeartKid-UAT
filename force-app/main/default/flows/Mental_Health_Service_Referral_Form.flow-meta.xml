@@ -4,17 +4,55 @@
         <name>Send_Emaill_To_Referral_Recipient</name>
         <label>Send Emaill To Referral Recipient</label>
         <locationX>50</locationX>
-        <locationY>974</locationY>
+        <locationY>1082</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
-            <targetReference>Get_Follow_Up_Task_Owner_Record</targetReference>
+            <targetReference>Get_Follow_Up_Task_Owner_Record_Mental_Health</targetReference>
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>emailAddresses</name>
             <value>
-                <elementReference>$Label.Referral_Recipients_Email_Addresses</elementReference>
+                <stringValue>mhw@heartkids.org.au</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>New Contact Referral</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>EmailBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <name>Send_Emaill_To_Referral_Recipient_Peer_Support</name>
+        <label>Send Emaill To Referral Recipient Peer Support</label>
+        <locationX>314</locationX>
+        <locationY>1082</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <connector>
+            <targetReference>Get_Follow_Up_Task_Owner_Record_Peer_Support</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <stringValue>bonnie.tomlin@heartkids.org.au</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
@@ -43,7 +81,7 @@
     <assignments>
         <name>Assign_Disabled_Flag_Value</name>
         <label>Assign Disabled Flag Value</label>
-        <locationX>182</locationX>
+        <locationX>402</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>DisabledFlag</assignToReference>
@@ -59,7 +97,7 @@
     <assignments>
         <name>Assign_Form_Fields_to_Contact_Record</name>
         <label>Assign Form Fields to Contact Record</label>
-        <locationX>314</locationX>
+        <locationX>534</locationX>
         <locationY>650</locationY>
         <assignmentItems>
             <assignToReference>Get_Contact_Details.Referral_Date__c</assignToReference>
@@ -272,17 +310,17 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>Get_Contact_Details.Other_Reason_For_Referral__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Other_Reason_For_Referral</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
             <assignToReference>Get_Contact_Details.Referral_Eligibility__c</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>Referral_Eligibility</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Get_Contact_Details.Other_Reason_For_Referral__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Other_Reason_For_Referral</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -293,7 +331,7 @@
         <name>Assign_Values_To_Task_Record_Variable</name>
         <label>Assign Values To Task Record Variable</label>
         <locationX>50</locationX>
-        <locationY>1190</locationY>
+        <locationY>1298</locationY>
         <assignmentItems>
             <assignToReference>TaskToCreate.Subject</assignToReference>
             <operator>Assign</operator>
@@ -319,7 +357,44 @@
             <assignToReference>TaskToCreate.OwnerId</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Get_Follow_Up_Task_Owner_Record.Id</elementReference>
+                <elementReference>Get_Follow_Up_Task_Owner_Record_Mental_Health.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_Follow_Up_Task</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Values_To_Task_Record_Variable_Peer_Support</name>
+        <label>Assign Values To Task Record Variable Peer Support</label>
+        <locationX>314</locationX>
+        <locationY>1298</locationY>
+        <assignmentItems>
+            <assignToReference>TaskToCreate.Subject</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Mental Health Program Follow-Up</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskToCreate.IsReminderSet</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskToCreate.WhoId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskToCreate.OwnerId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Follow_Up_Task_Owner_Record_Peer_Support.Id</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -357,9 +432,50 @@
         </value>
     </customProperties>
     <decisions>
+        <description>if Referred to is Mental Health / Peer Support</description>
+        <name>Check_Referred_To</name>
+        <label>Check Referred To</label>
+        <locationX>314</locationX>
+        <locationY>974</locationY>
+        <defaultConnector>
+            <targetReference>Create_Follow_Up_Task</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Mental_Health</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Referred_To</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Referred to Mental Health</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Send_Emaill_To_Referral_Recipient</targetReference>
+            </connector>
+            <label>Mental Health</label>
+        </rules>
+        <rules>
+            <name>Peer_Support</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Referred_To</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Referred to Peer Support</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Send_Emaill_To_Referral_Recipient_Peer_Support</targetReference>
+            </connector>
+            <label>Peer Support</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_the_Disabled_Flag</name>
         <label>Check the Disabled Flag</label>
-        <locationX>314</locationX>
+        <locationX>534</locationX>
         <locationY>866</locationY>
         <defaultConnector>
             <targetReference>Success_Screen</targetReference>
@@ -376,7 +492,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Send_Emaill_To_Referral_Recipient</targetReference>
+                <targetReference>Check_Referred_To</targetReference>
             </connector>
             <label>Is False</label>
         </rules>
@@ -384,7 +500,7 @@
     <decisions>
         <name>CheckIs_If_Referral_Form_Already_Sent</name>
         <label>CheckIs If Referral Form Already Sent</label>
-        <locationX>314</locationX>
+        <locationX>534</locationX>
         <locationY>242</locationY>
         <defaultConnector>
             <targetReference>Form_Screen</targetReference>
@@ -495,21 +611,17 @@
     <recordCreates>
         <name>Create_Follow_Up_Task</name>
         <label>Create Follow Up Task</label>
-        <locationX>50</locationX>
-        <locationY>1298</locationY>
+        <locationX>314</locationX>
+        <locationY>1490</locationY>
         <connector>
             <targetReference>Success_Screen</targetReference>
         </connector>
-        <faultConnector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Error_Screen</targetReference>
-        </faultConnector>
         <inputReference>TaskToCreate</inputReference>
     </recordCreates>
     <recordLookups>
         <name>Get_Contact_Details</name>
         <label>Get Contact Details</label>
-        <locationX>314</locationX>
+        <locationX>534</locationX>
         <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -528,10 +640,10 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <name>Get_Follow_Up_Task_Owner_Record</name>
-        <label>Get Follow Up Task Owner Record</label>
+        <name>Get_Follow_Up_Task_Owner_Record_Mental_Health</name>
+        <label>Get Follow Up Task Owner Record Mental Health</label>
         <locationX>50</locationX>
-        <locationY>1082</locationY>
+        <locationY>1190</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Assign_Values_To_Task_Record_Variable</targetReference>
@@ -541,7 +653,28 @@
             <field>Username</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>$Label.Mental_Health_Program_Follow_Up_Task_Owner</elementReference>
+                <stringValue>michelle.chee@heartkids.org.au.girikonpar</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>User</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Follow_Up_Task_Owner_Record_Peer_Support</name>
+        <label>Get Follow Up Task Owner Record Peer Support</label>
+        <locationX>314</locationX>
+        <locationY>1190</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Assign_Values_To_Task_Record_Variable_Peer_Support</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Username</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>bonnie.tomlin@heartkids.org.au.girikonpar</stringValue>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -551,7 +684,7 @@
     <recordUpdates>
         <name>Update_Contact</name>
         <label>Update Contact</label>
-        <locationX>314</locationX>
+        <locationX>534</locationX>
         <locationY>758</locationY>
         <connector>
             <targetReference>Check_the_Disabled_Flag</targetReference>
@@ -564,7 +697,7 @@
     <screens>
         <name>Error_Screen</name>
         <label>Error Screen</label>
-        <locationX>754</locationX>
+        <locationX>930</locationX>
         <locationY>866</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -589,7 +722,7 @@
     <screens>
         <name>Form_Screen</name>
         <label>Form Screen</label>
-        <locationX>314</locationX>
+        <locationX>534</locationX>
         <locationY>542</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -1349,9 +1482,6 @@
             <fieldText>Other Reason For Referral</fieldText>
             <fieldType>InputField</fieldType>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isDisabled>
-                <elementReference>DisabledFlag</elementReference>
-            </isDisabled>
             <isRequired>false</isRequired>
             <styleProperties>
                 <verticalAlignment>
@@ -1533,8 +1663,8 @@
     <screens>
         <name>Success_Screen</name>
         <label>Success Screen</label>
-        <locationX>314</locationX>
-        <locationY>1538</locationY>
+        <locationX>534</locationX>
+        <locationY>1682</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1589,7 +1719,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>188</locationX>
+        <locationX>408</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_Contact_Details</targetReference>

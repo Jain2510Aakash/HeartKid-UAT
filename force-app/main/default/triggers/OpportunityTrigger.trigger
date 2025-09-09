@@ -10,6 +10,6 @@ trigger OpportunityTrigger on Opportunity (before insert, before update,after in
     }
     if(trigger.isafter && (trigger.isInsert || trigger.isUpdate)){
         system.debug('Opportunity After Insert and Update');
-        OpportunityTriggerHandler.afterInsertUpdate(trigger.oldMap, trigger.newMap);
+        //OpportunityTriggerHandler.afterInsertUpdate(trigger.oldMap, trigger.newMap);
     }
 }

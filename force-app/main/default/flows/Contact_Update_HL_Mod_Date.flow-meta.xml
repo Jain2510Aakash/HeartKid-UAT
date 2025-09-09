@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <environments>Default</environments>
+    <formulas>
+        <name>DateTimeNow</name>
+        <dataType>DateTime</dataType>
+        <expression>NOW()</expression>
+    </formulas>
+    <interviewLabel>Contact Update HL Mod Date {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Contact Update HL Mod Date</label>
+    <migratedFromWorkflowRuleName>Update HL_Mod_Date__c</migratedFromWorkflowRuleName>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Used in Higher Logic integration. Please do not remove or disable.</description>
+        <name>Update_HL_Mod_Date</name>
+        <label>Update HL Mod Date</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>HL_Mod_Date__c</field>
+            <value>
+                <elementReference>DateTimeNow</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Update_HL_Mod_Date</targetReference>
+        </connector>
+        <filterFormula>ISNEW() || ISCHANGED({!$Record.Email}) || ISCHANGED({!$Record.Salutation}) || ISCHANGED({!$Record.Title}) || ISCHANGED({!$Record.MailingStreet}) || ISCHANGED({!$Record.MailingCity}) || ISCHANGED({!$Record.MailingState}) || ISCHANGED({!$Record.MailingPostalCode}) || ISCHANGED({!$Record.MailingCountry}) || ISCHANGED({!$Record.Phone}) || ISCHANGED({!$Record.MobilePhone}) || ISCHANGED({!$Record.HomePhone}) || ISCHANGED({!$Record.HL_Is_Active__c}) || ISCHANGED({!$Record.HL_Community_Groups__c}) || ISCHANGED({!$Record.Personal_Connection_to_CHD__c}) || ISCHANGED({!$Record.Professional_Connection_to_CHD__c}) || ISCHANGED({!$Record.AccountId}) || ISCHANGED({!$Record.Aboriginal_or_Torres_Strait_Islander__c}) || ISCHANGED({!$Record.Pronouns}) || ISCHANGED({!$Record.FirstName}) || ISCHANGED({!$Record.LastName})</filterFormula>
+        <object>Contact</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

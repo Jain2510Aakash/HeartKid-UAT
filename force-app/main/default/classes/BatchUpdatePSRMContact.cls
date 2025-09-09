@@ -1,16 +1,15 @@
-/*****
-* Created by Girikon 11-July-2025 
-* Test Class : 
-* Purpose: to fill PSRM on the contact where cases exists for legacy data
-
-database.executeBatch(new BatchUpdatePSRMContact());
-
-*     Change log
-
-*     Author            Date            Description
-* ==============================================================================================================================================================
+/**
+* @Description : to fill PSRM on the contact where cases exists for legacy data  
+* @Author : Girikon
+* Test Class : BatchUpdatePSRMContactTest
+*==============================================================================
+* Ver | Date | Author | Modification
+*==============================================================================
 *
-*/
+*==============================================================================
+* 1.0 | July 11, 2025 |   | Initial Version
+**/
+
 global class BatchUpdatePSRMContact implements Database.Batchable<SObject>, Database.Stateful {
 
     global Database.QueryLocator start(Database.BatchableContext BC) {

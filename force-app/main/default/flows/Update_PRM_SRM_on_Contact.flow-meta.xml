@@ -3,42 +3,86 @@
     <apiVersion>61.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
-        <name>Assign_PRM_Id</name>
-        <label>Assign PRM Id</label>
-        <locationX>974</locationX>
-        <locationY>2363</locationY>
+        <name>Assign_PRM</name>
+        <label>Assign PRM</label>
+        <locationX>1337</locationX>
+        <locationY>1871</locationY>
         <assignmentItems>
             <assignToReference>PRMId</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Iterate_Users_PRM_SRM.Id</elementReference>
+                <elementReference>Get_PRM_User.Id</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Check_for_Secondary</targetReference>
+            <targetReference>Check_PRMID</targetReference>
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_SRM_Id</name>
-        <label>Assign SRM Id</label>
-        <locationX>974</locationX>
-        <locationY>2663</locationY>
+        <name>Assignment_for_Bequest_Flag</name>
+        <label>Assignment for Bequest Flag</label>
+        <locationX>2338</locationX>
+        <locationY>971</locationY>
         <assignmentItems>
-            <assignToReference>SRMId</assignToReference>
+            <assignToReference>IsBequest</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Iterate_Users_PRM_SRM.Id</elementReference>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>OpportuntiyRecordTypeName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Bequest</stringValue>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Iterate_Users_PRM_SRM</targetReference>
+            <targetReference>Iterate_Opps</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assignment_for_Corporate_Flag</name>
+        <label>Assignment for Corporate Flag</label>
+        <locationX>1634</locationX>
+        <locationY>863</locationY>
+        <assignmentItems>
+            <assignToReference>IsCorporateType</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>IsDonationType</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>IsBequest</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>OpportuntiyRecordTypeName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Corporate</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Iterate_Opps</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assignment_for_Donation_Flag</name>
         <label>Assignment for Donation Flag</label>
-        <locationX>952</locationX>
-        <locationY>647</locationY>
+        <locationX>1898</locationX>
+        <locationY>971</locationY>
         <assignmentItems>
             <assignToReference>IsDonationType</assignToReference>
             <operator>Assign</operator>
@@ -46,140 +90,135 @@
                 <booleanValue>true</booleanValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>IsBequest</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>OpportuntiyRecordTypeName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Donation</stringValue>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Iterate_Opps</targetReference>
         </connector>
     </assignments>
     <assignments>
-        <name>Default_Setting_Assignment</name>
-        <label>Default Setting Assignment</label>
-        <locationX>930</locationX>
-        <locationY>1571</locationY>
+        <name>PRM_as_Account_Owner</name>
+        <label>PRM as Account Owner</label>
+        <locationX>50</locationX>
+        <locationY>539</locationY>
         <assignmentItems>
-            <assignToReference>PRMSRMSettingObject</assignToReference>
+            <assignToReference>PRMId</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Iterate_PRM_SRM_Settings</elementReference>
+                <elementReference>$Record.Account.OwnerId</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Iterate_PRM_SRM_Settings</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Matching_Assignment</name>
-        <label>Matching Assignment</label>
-        <locationX>666</locationX>
-        <locationY>1463</locationY>
-        <assignmentItems>
-            <assignToReference>IsMatchingSettingFound</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PRMSRMSettingObject</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Iterate_PRM_SRM_Settings</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Iterate_PRM_SRM_Settings</targetReference>
+            <targetReference>Check_PRMID</targetReference>
         </connector>
     </assignments>
     <decisions>
-        <name>Check_for_Appropriate_Setting</name>
-        <label>Check for Appropriate Setting</label>
-        <locationX>1018</locationX>
-        <locationY>1355</locationY>
+        <description>Account RT is Organization then Contact PRM equal to Account Owner</description>
+        <name>Check_Account_RT</name>
+        <label>Check Account RT</label>
+        <locationX>798</locationX>
+        <locationY>431</locationY>
         <defaultConnector>
-            <targetReference>Iterate_PRM_SRM_Settings</targetReference>
+            <targetReference>Get_All_Opps_Related_to_Contact</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Other</defaultConnectorLabel>
+        <defaultConnectorLabel>Exdecute PRM Logic from MDT</defaultConnectorLabel>
         <rules>
-            <name>Matching_Setting</name>
+            <name>RT_is_Organization</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Iterate_PRM_SRM_Settings.State__c</leftValueReference>
+                <leftValueReference>$Record.Account.RecordType.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <elementReference>$Record.MailingState</elementReference>
+                    <stringValue>Organization</stringValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Matching_Assignment</targetReference>
+                <targetReference>PRM_as_Account_Owner</targetReference>
             </connector>
-            <label>Matching Setting</label>
-        </rules>
-        <rules>
-            <name>Setting_for_Default</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Iterate_PRM_SRM_Settings.State__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Blank</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Check_for_Matching_Flag</targetReference>
-            </connector>
-            <label>Setting for Default</label>
+            <label>RT is Organization</label>
         </rules>
     </decisions>
     <decisions>
-        <name>Check_for_Matching_Flag</name>
-        <label>Check for Matching Flag</label>
-        <locationX>1062</locationX>
-        <locationY>1463</locationY>
+        <name>Check_for_Corporate_and_Donation_Flag</name>
+        <label>Check for Corporate and Donation Flag</label>
+        <locationX>2470</locationX>
+        <locationY>863</locationY>
         <defaultConnector>
-            <targetReference>Iterate_PRM_SRM_Settings</targetReference>
+            <targetReference>Iterate_Opps</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Is True</defaultConnectorLabel>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Is_False</name>
+            <name>Corporate_and_Donation_is_False</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>IsMatchingSettingFound</leftValueReference>
+                <leftValueReference>IsCorporateType</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>IsDonationType</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Default_Setting_Assignment</targetReference>
+                <targetReference>Assignment_for_Bequest_Flag</targetReference>
             </connector>
-            <label>Is False</label>
+            <label>Corporate and Donation is False</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_for_Corporate_Flag</name>
+        <label>Check for Corporate Flag</label>
+        <locationX>2030</locationX>
+        <locationY>863</locationY>
+        <defaultConnector>
+            <targetReference>Iterate_Opps</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Corporate_is_False</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>IsCorporateType</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assignment_for_Donation_Flag</targetReference>
+            </connector>
+            <label>Corporate is False</label>
         </rules>
     </decisions>
     <decisions>
         <name>Check_for_Opp_Types</name>
         <label>Check for Opp Types</label>
-        <locationX>952</locationX>
-        <locationY>539</locationY>
+        <locationX>2206</locationX>
+        <locationY>755</locationY>
         <defaultConnector>
             <targetReference>Iterate_Opps</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Others</defaultConnectorLabel>
         <rules>
-            <name>Is_Grant_or_In_Kind_Gift_or_Corporate</name>
-            <conditionLogic>or</conditionLogic>
-            <conditions>
-                <leftValueReference>Iterate_Opps.RecordType.DeveloperName</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>InKindGift</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Iterate_Opps.RecordType.DeveloperName</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Grant</stringValue>
-                </rightValue>
-            </conditions>
+            <name>Is_Corporate</name>
+            <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>Iterate_Opps.RecordType.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
@@ -187,7 +226,10 @@
                     <stringValue>Corporate</stringValue>
                 </rightValue>
             </conditions>
-            <label>Is Grant or In-Kind Gift or Corporate</label>
+            <connector>
+                <targetReference>Assignment_for_Corporate_Flag</targetReference>
+            </connector>
+            <label>Is Corporate</label>
         </rules>
         <rules>
             <name>Is_Donation</name>
@@ -200,171 +242,169 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Assignment_for_Donation_Flag</targetReference>
+                <targetReference>Check_for_Corporate_Flag</targetReference>
             </connector>
             <label>Is Donation</label>
         </rules>
-    </decisions>
-    <decisions>
-        <name>Check_for_Primary</name>
-        <label>Check for Primary</label>
-        <locationX>1106</locationX>
-        <locationY>2255</locationY>
-        <defaultConnector>
-            <targetReference>Check_for_Secondary</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default</defaultConnectorLabel>
         <rules>
-            <name>Is_Primary</name>
+            <name>Is_Bequest</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Iterate_Users_PRM_SRM.Username</leftValueReference>
+                <leftValueReference>Iterate_Opps.RecordType.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <elementReference>PRMSRMSettingObject.PRM_Username__c</elementReference>
+                    <stringValue>Bequest</stringValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Assign_PRM_Id</targetReference>
+                <targetReference>Check_for_Corporate_and_Donation_Flag</targetReference>
             </connector>
-            <label>Is Primary</label>
+            <label>Is Bequest</label>
         </rules>
     </decisions>
     <decisions>
-        <name>Check_for_PRM_and_SRM_List</name>
-        <label>Check for PRM and SRM List</label>
-        <locationX>578</locationX>
-        <locationY>2039</locationY>
+        <name>Check_for_OpportunityRTName</name>
+        <label>Check for OpportunityRTName</label>
+        <locationX>1546</locationX>
+        <locationY>1331</locationY>
         <defaultConnector>
-            <targetReference>Iterate_Users_PRM_SRM</targetReference>
+            <targetReference>Check_PRMID</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Not Empty</defaultConnectorLabel>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Is_Empty1</name>
+            <name>Opportunity_RT_is_not_Null</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_PRM_SRM</leftValueReference>
-                <operator>IsEmpty</operator>
+                <leftValueReference>OpportuntiyRecordTypeName</leftValueReference>
+                <operator>IsBlank</operator>
                 <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <label>Is Empty</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>Check_for_Secondary</name>
-        <label>Check for Secondary</label>
-        <locationX>1106</locationX>
-        <locationY>2555</locationY>
-        <defaultConnector>
-            <targetReference>Iterate_Users_PRM_SRM</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default</defaultConnectorLabel>
-        <rules>
-            <name>Is_Secondary</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Iterate_Users_PRM_SRM.Username</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>PRMSRMSettingObject.SRM_Username__c</elementReference>
+                    <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Assign_SRM_Id</targetReference>
+                <targetReference>Fetch_PRM_Settings</targetReference>
             </connector>
-            <label>Is Secondary</label>
+            <label>Opportunity RT is not Null</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_for_PRM_User</name>
+        <label>Check for PRM User</label>
+        <locationX>1469</locationX>
+        <locationY>1763</locationY>
+        <defaultConnector>
+            <targetReference>Check_PRMID</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>PRR_User_Found</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_PRM_User</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_PRM</targetReference>
+            </connector>
+            <label>PRR User Found</label>
         </rules>
     </decisions>
     <decisions>
         <name>Check_If_Settings_Are_Empty</name>
         <label>Check If Settings Are Empty</label>
-        <locationX>50</locationX>
-        <locationY>1139</locationY>
+        <locationX>1315</locationX>
+        <locationY>1547</locationY>
         <defaultConnector>
-            <targetReference>Iterate_PRM_SRM_Settings</targetReference>
+            <targetReference>Get_PRM_User</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Not Empty</defaultConnectorLabel>
         <rules>
             <name>Is_Empty</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_PRM_SRM_Settings</leftValueReference>
-                <operator>IsEmpty</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <label>Is Empty</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>Is_Donation_Type_Opp_Exists</name>
-        <label>Is Donation Type Opp Exists</label>
-        <locationX>600</locationX>
-        <locationY>923</locationY>
-        <defaultConnectorLabel>No</defaultConnectorLabel>
-        <rules>
-            <name>Yes</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>IsDonationType</leftValueReference>
-                <operator>EqualTo</operator>
+                <leftValueReference>Fetch_PRM_Settings</leftValueReference>
+                <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Get_PRM_SRM_Settings</targetReference>
+                <targetReference>Check_PRMID</targetReference>
             </connector>
-            <label>Yes</label>
+            <label>Is Empty</label>
         </rules>
     </decisions>
-    <description>Update PRM &amp; SRM on Contact on Mailing State Change.</description>
+    <decisions>
+        <name>Check_PRMID</name>
+        <label>Check PRMID</label>
+        <locationX>798</locationX>
+        <locationY>2315</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>PRMId_not_Null</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>PRMId</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_PRM_on_Contact</targetReference>
+            </connector>
+            <label>PRMId not Null</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check if the triggering contact&apos;s PRM contains any of the usernames mentioned in the Exceptions For PRM Override</description>
+        <name>CheckPRMExceptionsCustomLabel</name>
+        <label>CheckPRMExceptionsCustomLabel</label>
+        <locationX>292</locationX>
+        <locationY>323</locationY>
+        <defaultConnector>
+            <targetReference>Check_Account_RT</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Execute PRM Logic From Metadata</defaultConnectorLabel>
+        <rules>
+            <name>Contains_PRM</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Primary_Relationship_Manager__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Label.Exceptions_For_Fundraiser_PRM_Override</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <elementReference>$Record.Primary_Relationship_Manager__r.Username</elementReference>
+                </rightValue>
+            </conditions>
+            <label>Contains PRM</label>
+        </rules>
+    </decisions>
+    <description>Update PRM on Contact on Mailing State Change.</description>
     <environments>Default</environments>
     <interviewLabel>Update PRM &amp; SRM on Contact {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Update PRM &amp; SRM on Contact</label>
+    <label>Update PRM on Contact</label>
     <loops>
         <name>Iterate_Opps</name>
         <label>Iterate Opps</label>
-        <locationX>600</locationX>
-        <locationY>431</locationY>
+        <locationX>1546</locationX>
+        <locationY>647</locationY>
         <collectionReference>Get_All_Opps_Related_to_Contact</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
             <targetReference>Check_for_Opp_Types</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Is_Donation_Type_Opp_Exists</targetReference>
-        </noMoreValuesConnector>
-    </loops>
-    <loops>
-        <name>Iterate_PRM_SRM_Settings</name>
-        <label>Iterate PRM &amp; SRM Settings</label>
-        <locationX>578</locationX>
-        <locationY>1247</locationY>
-        <collectionReference>Get_PRM_SRM_Settings</collectionReference>
-        <iterationOrder>Asc</iterationOrder>
-        <nextValueConnector>
-            <targetReference>Check_for_Appropriate_Setting</targetReference>
-        </nextValueConnector>
-        <noMoreValuesConnector>
-            <targetReference>Get_PRM_SRM</targetReference>
-        </noMoreValuesConnector>
-    </loops>
-    <loops>
-        <name>Iterate_Users_PRM_SRM</name>
-        <label>Iterate Users (PRM &amp; SRM)</label>
-        <locationX>886</locationX>
-        <locationY>2147</locationY>
-        <collectionReference>Get_PRM_SRM</collectionReference>
-        <iterationOrder>Asc</iterationOrder>
-        <nextValueConnector>
-            <targetReference>Check_for_Primary</targetReference>
-        </nextValueConnector>
-        <noMoreValuesConnector>
-            <targetReference>Update_PRM_SRM_on_Contact</targetReference>
+            <targetReference>Check_for_OpportunityRTName</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -387,10 +427,38 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordLookups>
+        <name>Fetch_PRM_Settings</name>
+        <label>Fetch PRM Settings</label>
+        <locationX>1315</locationX>
+        <locationY>1439</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_If_Settings_Are_Empty</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>State__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.MailingState</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Opportunity_Record_Type_Name__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>OpportuntiyRecordTypeName</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>PRM_SRM_Setting__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_All_Opps_Related_to_Contact</name>
         <label>Get All Opps Related to Contact</label>
-        <locationX>600</locationX>
-        <locationY>323</locationY>
+        <locationX>1546</locationX>
+        <locationY>539</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Iterate_Opps</targetReference>
@@ -422,92 +490,44 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <name>Get_PRM_SRM</name>
-        <label>Get PRM &amp; SRM</label>
-        <locationX>578</locationX>
-        <locationY>1931</locationY>
+        <name>Get_PRM_User</name>
+        <label>Get PRM User</label>
+        <locationX>1469</locationX>
+        <locationY>1655</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Check_for_PRM_and_SRM_List</targetReference>
+            <targetReference>Check_for_PRM_User</targetReference>
         </connector>
         <filterLogic>or</filterLogic>
         <filters>
             <field>Username</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>PRMSRMSettingObject.PRM_Username__c</elementReference>
+                <elementReference>Fetch_PRM_Settings.PRM_Username__c</elementReference>
             </value>
         </filters>
-        <filters>
-            <field>Username</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>PRMSRMSettingObject.SRM_Username__c</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>User</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
-    <recordLookups>
-        <name>Get_PRM_SRM_Settings</name>
-        <label>Get PRM &amp; SRM Settings</label>
-        <locationX>50</locationX>
-        <locationY>1031</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Check_If_Settings_Are_Empty</targetReference>
-        </connector>
-        <filterLogic>1 AND (2 OR 3)</filterLogic>
-        <filters>
-            <field>Opportunity_Record_Type_Name__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Donation</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>State__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record.MailingState</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>State__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Blank</stringValue>
-            </value>
-        </filters>
-        <getFirstRecordOnly>false</getFirstRecordOnly>
-        <object>PRM_SRM_Setting__mdt</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
     <recordUpdates>
-        <name>Update_PRM_SRM_on_Contact</name>
-        <label>Update PRM &amp; SRM on Contact</label>
-        <locationX>886</locationX>
-        <locationY>2939</locationY>
+        <name>Update_PRM_on_Contact</name>
+        <label>Update PRM on Contact</label>
+        <locationX>666</locationX>
+        <locationY>2423</locationY>
         <inputAssignments>
             <field>Primary_Relationship_Manager__c</field>
             <value>
                 <elementReference>PRMId</elementReference>
             </value>
         </inputAssignments>
-        <inputAssignments>
-            <field>Secondary_Relationship_Manager__c</field>
-            <value>
-                <elementReference>SRMId</elementReference>
-            </value>
-        </inputAssignments>
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <start>
-        <locationX>474</locationX>
+        <locationX>166</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Get_All_Opps_Related_to_Contact</targetReference>
+            <targetReference>CheckPRMExceptionsCustomLabel</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -523,11 +543,31 @@
     </start>
     <status>Active</status>
     <variables>
+        <name>IsBequest</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <name>IsCorporateType</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
         <name>IsDonationType</name>
         <dataType>Boolean</dataType>
         <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
         <value>
             <booleanValue>false</booleanValue>
         </value>
@@ -541,6 +581,13 @@
         <value>
             <booleanValue>false</booleanValue>
         </value>
+    </variables>
+    <variables>
+        <name>OpportuntiyRecordTypeName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
     </variables>
     <variables>
         <name>PRMId</name>

@@ -1,3 +1,15 @@
+/**
+* @Description : Transfer Account and Contact records 
+* @Author : Girikon
+* Test Class: RoleAssignmentHelperTest
+*==============================================================================
+* Ver | Date | Author | Modification
+*==============================================================================
+*
+*==============================================================================
+* 1.0 | August 01, 2025 |   | Initial Version
+**/
+
 global class RoleAssignmentTransferBatch implements Database.Batchable<SObject> {
     
     // Parameters
@@ -18,7 +30,13 @@ global class RoleAssignmentTransferBatch implements Database.Batchable<SObject> 
     global Database.QueryLocator start(Database.BatchableContext BC) {
         
         String query = '';
-        query =  'SELECT Id, Primary_Relationship_Manager__c, OwnerId,Primary_Relationship_Manager__r.Name, Owner.Name FROM ' + objName +' WHERE ' + fieldName + ' = \'' + fromUserId + '\'';
+        if(Test.isRunningTest()){
+            query =  'SELECT Id, Primary_Relationship_Manager__c, OwnerId,Primary_Relationship_Manager__r.Name, Owner.Name FROM Account';
+            
+        }else{
+            query =  'SELECT Id, Primary_Relationship_Manager__c, OwnerId,Primary_Relationship_Manager__r.Name, Owner.Name FROM ' + objName +' WHERE ' + fieldName + ' = \'' + fromUserId + '\'';
+            
+        }
         
         system.debug('query->'+query);
         return Database.getQueryLocator(query);

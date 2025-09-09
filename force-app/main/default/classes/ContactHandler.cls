@@ -88,9 +88,9 @@ public class ContactHandler {
                 contactIdSet.add(newCon.ID);
                 contactIdByOwnerId.put(newCon.ID, newCon.Ownerid);
             }
-            if(newCon.MailingState != oldCon.MailingState && newCon.MailingState != null){
-                contactIdSetUpdatedMailingState.add(newCon.Id);
-            }
+            //if(newCon.MailingState != oldCon.MailingState && newCon.MailingState != null){
+                //contactIdSetUpdatedMailingState.add(newCon.Id);
+            //}
         }
         if(!contactIdSet.isEmpty()){
             system.debug('Calling createFollowupTaskForSupport1on1');
@@ -98,7 +98,7 @@ public class ContactHandler {
         }
         if(!contactIdSetUpdatedMailingState.isEmpty()){
             system.debug('Calling populatePRMonContact from contact trigger');
-            ContactHandlerHelper.populatePRMonContact(contactIdSetUpdatedMailingState);
+            //ContactHandlerHelper.populatePRMonContact(contactIdSetUpdatedMailingState);
         }
     }
 }

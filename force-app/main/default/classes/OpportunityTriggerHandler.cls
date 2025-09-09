@@ -21,6 +21,7 @@ public class OpportunityTriggerHandler {
             }
         }
     }
+    /*
     public static void afterInsertUpdate(Map<Id, opportunity> oldMap, map<Id, opportunity> newMap){
         system.debug('afterInsertUpdate');
         set<Id> insertedOppIds = new set<id>();
@@ -43,4 +44,5 @@ public class OpportunityTriggerHandler {
             OpportunityTriggerHelper.populatePRMonContact(insertedOppIds, updatedOppIds);
         }
     }
+*/
 }

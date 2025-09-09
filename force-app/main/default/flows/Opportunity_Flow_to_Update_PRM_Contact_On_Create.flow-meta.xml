@@ -230,7 +230,7 @@
             <label>PRM User Found</label>
         </rules>
     </decisions>
-    <description>Update PRM On Contact on existing Opportunity Update.</description>
+    <description>Update PRM  on Contact on new Opportunity Create.</description>
     <environments>Default</environments>
     <formulas>
         <name>CheckPRMOfContact</name>
@@ -242,8 +242,8 @@
         <dataType>Boolean</dataType>
         <expression>ISNEW()</expression>
     </formulas>
-    <interviewLabel>Opportunity Flow to Update PRM &amp; SRM on Contact {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Opportunity Flow to Update PRM on Contact - On Update</label>
+    <interviewLabel>Opportunity Flow to Update PRM Contact - On Create {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Opportunity Flow to Update PRM Contact - On Create</label>
     <loops>
         <name>Iterate_All_Opps</name>
         <label>Iterate All Opps</label>
@@ -454,40 +454,12 @@
     <start>
         <locationX>50</locationX>
         <locationY>0</locationY>
-        <filterLogic>1 AND 6 AND 7 AND (2 OR 3 OR 4 OR 5 )</filterLogic>
+        <filterLogic>1 AND 2 AND 3</filterLogic>
         <filters>
             <field>npsp__Primary_Contact__c</field>
             <operator>IsNull</operator>
             <value>
                 <booleanValue>false</booleanValue>
-            </value>
-        </filters>
-        <filters>
-            <field>npsp__Primary_Contact__c</field>
-            <operator>IsChanged</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </filters>
-        <filters>
-            <field>StageName</field>
-            <operator>IsChanged</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </filters>
-        <filters>
-            <field>RecordTypeId</field>
-            <operator>IsChanged</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Amount</field>
-            <operator>IsChanged</operator>
-            <value>
-                <booleanValue>true</booleanValue>
             </value>
         </filters>
         <filters>
@@ -505,7 +477,7 @@
             </value>
         </filters>
         <object>Opportunity</object>
-        <recordTriggerType>Update</recordTriggerType>
+        <recordTriggerType>Create</recordTriggerType>
         <scheduledPaths>
             <connector>
                 <targetReference>CheckPRMExceptionsCustomLabel</targetReference>

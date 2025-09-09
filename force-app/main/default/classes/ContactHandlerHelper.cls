@@ -214,7 +214,7 @@ public class ContactHandlerHelper {
         }
     }
     
-    public static void populatePRMonContact (Set<Id> contactIds) {
+    /*public static void populatePRMonContact (Set<Id> contactIds) {
         set<string> usernameSet = new Set<String>();
         List<Contact> contactListToUpdate = new List<Contact>();
         Map<String,String> stateByUsernameMap = new Map<String, String>();
@@ -286,5 +286,5 @@ public class ContactHandlerHelper {
             }
         }
         return username; // fallback if format doesn't match
-    }
+    }*/
 }

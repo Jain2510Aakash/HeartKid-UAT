@@ -1,13 +1,16 @@
-/*****
-* Created by Girikon 11-July-2025 
-* Test Class : 
-* Purpose: to fill PSRM on the related contact
-*     Change log
-
-*     Author            Date            Description
-* ==============================================================================================================================================================
+/**
+* @Description : to fill PSRM on the related contact
+* @Author : Girikon
+* Test Class : CaseTriggerTest
+*==============================================================================
+* Ver | Date | Author | Modification
+*==============================================================================
 *
-*/
+*==============================================================================
+* 1.0 | July 11, 2025 |   | Initial Version
+**/
+
+
 public class CaseTriggerHelper {
     public static void afterInsert(Map<Id,Case> oldMap, Map<Id,Case> newMap){
         List<Contact> ContactListToUpdatePSRM = new List<Contact>();
@@ -37,13 +40,13 @@ public class CaseTriggerHelper {
             
             if (contactChanged) {
                 if (oldCase.ContactId != null) {
-                    contactIdsToReevaluate.add(oldCase.ContactId); // Removed contact
+                    contactIdsToReevaluate.add(oldCase.ContactId); 
                 }
                 if (newCase.ContactId != null) {
-                    contactIdsToReevaluate.add(newCase.ContactId); // Added or replaced contact
+                    contactIdsToReevaluate.add(newCase.ContactId); 
                 }
             } else if (!contactChanged && ownerChanged) {
-                contactIdsToReevaluate.add(newCase.ContactId); // Contact added (was null before), owner changed
+                contactIdsToReevaluate.add(newCase.ContactId); 
             }
             system.debug('contactIdsToReevaluate'+contactIdsToReevaluate);
         }

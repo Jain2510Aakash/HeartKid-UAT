@@ -3,6 +3,19 @@
     <apiVersion>61.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
+        <name>Assign_Mailing_Country</name>
+        <label>Assign Mailing Country</label>
+        <locationX>314</locationX>
+        <locationY>3095</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.MailingCountry</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Australia</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
         <description>Unchecked fields Marketing emails,Marketing SMS,Donor emails,Donor SMS,Donor phone calls,Support Updates,Support Personal 1:1 Only, Healthcare Professional Newsletter</description>
         <name>Copy_1_of_Uncheck_comms_and_Store_Backup</name>
         <label>Uncheck  comms related to Do Not Contact</label>
@@ -549,7 +562,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Check_Support_Updates</targetReference>
+            <targetReference>Check_Other_Country</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -653,17 +666,6 @@
             <targetReference>Check_Do_Not_Call</targetReference>
         </connector>
     </assignments>
-    <customErrors>
-        <name>SupportUpdateError</name>
-        <label>SupportUpdateError</label>
-        <locationX>116</locationX>
-        <locationY>3311</locationY>
-        <customErrorMessages>
-            <errorMessage>Pls Unlink the related Case to mark Support Updates as FALSE</errorMessage>
-            <fieldSelection>Support_Updates__c</fieldSelection>
-            <isFieldError>true</isFieldError>
-        </customErrorMessages>
-    </customErrors>
     <decisions>
         <description>If Bereaved Family Status is on hold then update Support 1:1 as True</description>
         <name>Check_Bereaved_Family_Status</name>
@@ -718,7 +720,7 @@
         <locationX>446</locationX>
         <locationY>2687</locationY>
         <defaultConnector>
-            <targetReference>Check_Support_Updates</targetReference>
+            <targetReference>Check_Other_Country</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -993,6 +995,33 @@
         </rules>
     </decisions>
     <decisions>
+        <description>If Other Country = &apos;Australia&apos; &amp; Mailing Country is blank, update Mailing Country with &apos;Australia&apos;</description>
+        <name>Check_Other_Country</name>
+        <label>Check Other Country</label>
+        <locationX>446</locationX>
+        <locationY>2987</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Other_Country_Australia</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.OtherCountry</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Australia</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.MailingCountry</leftValueReference>
+                <operator>EqualTo</operator>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Mailing_Country</targetReference>
+            </connector>
+            <label>Other Country Australia</label>
+        </rules>
+    </decisions>
+    <decisions>
         <description>If support 1:1 is checked that means it should have stored the backup, uncheck all the backup</description>
         <name>Check_Support_1_1</name>
         <label>Check Support 1:1</label>
@@ -1115,59 +1144,6 @@
             <label>New and True</label>
         </rules>
     </decisions>
-    <decisions>
-        <description>If Support Update is changed and marked as false</description>
-        <name>Check_Support_Updates</name>
-        <label>Check Support Updates</label>
-        <locationX>446</locationX>
-        <locationY>2987</locationY>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>False_Updated</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.Support_Updates__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Support_Updates__c</leftValueReference>
-                <operator>IsChanged</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Get_related_Cases</targetReference>
-            </connector>
-            <label>False Updated</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <description>Check if the triggering Contact has cases</description>
-        <name>Have_Cases</name>
-        <label>Have Cases</label>
-        <locationX>248</locationX>
-        <locationY>3203</locationY>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Related_Case_exist</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Get_related_Cases</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>SupportUpdateError</targetReference>
-            </connector>
-            <label>Related Case exist</label>
-        </rules>
-    </decisions>
     <environments>Default</environments>
     <formulas>
         <name>CurrentFYStartDate</name>
@@ -1200,63 +1176,13 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
-    <recordLookups>
-        <name>Get_related_Cases</name>
-        <label>Get related Cases</label>
-        <locationX>248</locationX>
-        <locationY>3095</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Have_Cases</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>ContactId</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>Case</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
     <start>
         <locationX>320</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Check_Do_Not_Contact</targetReference>
         </connector>
-        <filterFormula>OR(
-    AND(
-        NOT(ISNEW()),
-        OR(
-            ISCHANGED({!$Record.Support_Personal_1_1_Only__c}),
-            AND({!$Record.npsp__Do_Not_Contact__c}, ISCHANGED({!$Record.npsp__Do_Not_Contact__c})),
-            AND({!$Record.HasOptedOutOfEmail}, ISCHANGED({!$Record.HasOptedOutOfEmail})),
-            AND({!$Record.No_SMS__c}, ISCHANGED({!$Record.No_SMS__c})),
-            AND({!$Record.No_Telemarketing__c}, ISCHANGED({!$Record.No_Telemarketing__c})),
-            AND({!$Record.No_Solicitation__c}, ISCHANGED({!$Record.No_Solicitation__c})),
-            AND({!$Record.DoNotCall}, ISCHANGED({!$Record.DoNotCall})),
-            AND(!{!$Record.Support_Updates__c}, ISCHANGED({!$Record.Support_Updates__c})),
-            AND(ISCHANGED({!$Record.Contact_Status__c}) &amp;&amp; ISPICKVAL({!$Record.Contact_Status__c}, &quot;Bereaved Family - on hold&quot;))
-        )
-    ),
-    AND(
-        ISNEW(),
-        OR(
-            {!$Record.Support_Personal_1_1_Only__c},
-            {!$Record.npsp__Do_Not_Contact__c},
-            {!$Record.HasOptedOutOfEmail},
-            {!$Record.No_SMS__c},
-            {!$Record.No_Telemarketing__c},
-            {!$Record.No_Solicitation__c},
-            {!$Record.DoNotCall},
-            ISPICKVAL({!$Record.Contact_Status__c}, &quot;Bereaved Family - on hold&quot;)
-
-        )
-    )
-)</filterFormula>
+        <filterFormula>OR(AND(NOT(ISNEW()),OR(ISCHANGED({!$Record.Support_Personal_1_1_Only__c}),AND({!$Record.npsp__Do_Not_Contact__c},ISCHANGED({!$Record.npsp__Do_Not_Contact__c})),AND({!$Record.HasOptedOutOfEmail},ISCHANGED({!$Record.HasOptedOutOfEmail})),AND({!$Record.No_SMS__c},ISCHANGED({!$Record.No_SMS__c})),AND({!$Record.No_Telemarketing__c},ISCHANGED({!$Record.No_Telemarketing__c})),AND({!$Record.No_Solicitation__c},ISCHANGED({!$Record.No_Solicitation__c})),AND({!$Record.DoNotCall},ISCHANGED({!$Record.DoNotCall})),AND(NOT({!$Record.Support_Updates__c}),ISCHANGED({!$Record.Support_Updates__c})),AND(ISCHANGED({!$Record.Contact_Status__c}),ISPICKVAL({!$Record.Contact_Status__c},&quot;Bereaved Family - on hold&quot;)),AND({!$Record.OtherCountry}=&quot;Australia&quot;,ISBLANK({!$Record.MailingCountry})))),AND(ISNEW(),OR({!$Record.Support_Personal_1_1_Only__c},{!$Record.npsp__Do_Not_Contact__c},{!$Record.HasOptedOutOfEmail},{!$Record.No_SMS__c},{!$Record.No_Telemarketing__c},{!$Record.No_Solicitation__c},{!$Record.DoNotCall},ISPICKVAL({!$Record.Contact_Status__c},&quot;Bereaved Family - on hold&quot;),NOT(ISBLANK({!$Record.Converted_Leads_Birthdate__c})),AND({!$Record.OtherCountry}=&quot;Australia&quot;,ISBLANK({!$Record.MailingCountry})))))</filterFormula>
         <object>Contact</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordBeforeSave</triggerType>
