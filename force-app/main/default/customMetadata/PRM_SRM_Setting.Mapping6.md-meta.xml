@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Mapping6</label>
+    <protected>false</protected>
+    <values>
+        <field>Opportunity_Record_Type_Name__c</field>
+        <value xsi:type="xsd:string">Donation</value>
+    </values>
+    <values>
+        <field>PRM_Username__c</field>
+        <value xsi:type="xsd:string">mitz.wang@heartkids.org.au.girikonpar</value>
+    </values>
+    <values>
+        <field>SRM_Username__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>State__c</field>
+        <value xsi:type="xsd:string">QLD</value>
+    </values>
+</CustomMetadata>

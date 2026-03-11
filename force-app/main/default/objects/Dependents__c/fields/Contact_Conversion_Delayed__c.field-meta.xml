@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_Conversion_Delayed__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Primary Contact opted to delay the conversion to Contact for one year
+See &apos;Contact Conversion Next Contact Date&apos; for the date the next request will be emailed to the Primary Contact</description>
+    <label>Contact Conversion Delayed</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

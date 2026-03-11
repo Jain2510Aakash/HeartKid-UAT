@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>Exceptions_For_Fundraiser_PRM_Override</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Exceptions For PRM Override</shortDescription>
+        <value>marcus.sandmann@heartkids.org.au.girikonpar,jessica.keating@heartkids.org.au.girikonpar,rachstecher@heartkids.org.au.girikonpar</value>
+    </labels>
+    <labels>
+        <fullName>Mental_Health_Program_Follow_Up_Task_Owner</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mental Health Program Follow-Up Task Owner</shortDescription>
+        <value>hk-saurabh.verma@girikon.com.girikonpar</value>
+    </labels>
+    <labels>
+        <fullName>Org_Base_Url</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Org Base Url</shortDescription>
+        <value>https://heartkids--girikonpar.sandbox.lightning.force.com</value>
+    </labels>
+    <labels>
+        <fullName>Referral_Recipients_Email_Addresses</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Referral Recipients Email Addresses</shortDescription>
+        <value>sharjeel.bashshar@girikon.com,prashant.bisht@girikon.com</value>
+    </labels>
+</CustomLabels>

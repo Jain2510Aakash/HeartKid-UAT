@@ -14,6 +14,22 @@
                 <stringValue>Australia</stringValue>
             </value>
         </assignmentItems>
+        <connector>
+            <targetReference>Check_PRM</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_PRM_as_Owner</name>
+        <label>Assign PRM as Owner</label>
+        <locationX>314</locationX>
+        <locationY>3395</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.OwnerId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Primary_Relationship_Manager__c</elementReference>
+            </value>
+        </assignmentItems>
     </assignments>
     <assignments>
         <description>Unchecked fields Marketing emails,Marketing SMS,Donor emails,Donor SMS,Donor phone calls,Support Updates,Support Personal 1:1 Only, Healthcare Professional Newsletter</description>
@@ -1000,6 +1016,9 @@
         <label>Check Other Country</label>
         <locationX>446</locationX>
         <locationY>2987</locationY>
+        <defaultConnector>
+            <targetReference>Check_PRM</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Other_Country_Australia</name>
@@ -1019,6 +1038,36 @@
                 <targetReference>Assign_Mailing_Country</targetReference>
             </connector>
             <label>Other Country Australia</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>if the PRM is active then assign it as contact owner</description>
+        <name>Check_PRM</name>
+        <label>Check PRM</label>
+        <locationX>446</locationX>
+        <locationY>3287</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>PRM_Active</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Primary_Relationship_Manager__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Primary_Relationship_Manager__r.IsActive</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_PRM_as_Owner</targetReference>
+            </connector>
+            <label>PRM Active</label>
         </rules>
     </decisions>
     <decisions>
@@ -1182,7 +1231,7 @@
         <connector>
             <targetReference>Check_Do_Not_Contact</targetReference>
         </connector>
-        <filterFormula>OR(AND(NOT(ISNEW()),OR(ISCHANGED({!$Record.Support_Personal_1_1_Only__c}),AND({!$Record.npsp__Do_Not_Contact__c},ISCHANGED({!$Record.npsp__Do_Not_Contact__c})),AND({!$Record.HasOptedOutOfEmail},ISCHANGED({!$Record.HasOptedOutOfEmail})),AND({!$Record.No_SMS__c},ISCHANGED({!$Record.No_SMS__c})),AND({!$Record.No_Telemarketing__c},ISCHANGED({!$Record.No_Telemarketing__c})),AND({!$Record.No_Solicitation__c},ISCHANGED({!$Record.No_Solicitation__c})),AND({!$Record.DoNotCall},ISCHANGED({!$Record.DoNotCall})),AND(NOT({!$Record.Support_Updates__c}),ISCHANGED({!$Record.Support_Updates__c})),AND(ISCHANGED({!$Record.Contact_Status__c}),ISPICKVAL({!$Record.Contact_Status__c},&quot;Bereaved Family - on hold&quot;)),AND({!$Record.OtherCountry}=&quot;Australia&quot;,ISBLANK({!$Record.MailingCountry})))),AND(ISNEW(),OR({!$Record.Support_Personal_1_1_Only__c},{!$Record.npsp__Do_Not_Contact__c},{!$Record.HasOptedOutOfEmail},{!$Record.No_SMS__c},{!$Record.No_Telemarketing__c},{!$Record.No_Solicitation__c},{!$Record.DoNotCall},ISPICKVAL({!$Record.Contact_Status__c},&quot;Bereaved Family - on hold&quot;),NOT(ISBLANK({!$Record.Converted_Leads_Birthdate__c})),AND({!$Record.OtherCountry}=&quot;Australia&quot;,ISBLANK({!$Record.MailingCountry})))))</filterFormula>
+        <filterFormula>OR(AND(NOT(ISNEW()),OR(ISCHANGED({!$Record.Support_Personal_1_1_Only__c}),AND({!$Record.npsp__Do_Not_Contact__c},ISCHANGED({!$Record.npsp__Do_Not_Contact__c})),AND({!$Record.HasOptedOutOfEmail},ISCHANGED({!$Record.HasOptedOutOfEmail})),AND({!$Record.No_SMS__c},ISCHANGED({!$Record.No_SMS__c})),AND({!$Record.No_Telemarketing__c},ISCHANGED({!$Record.No_Telemarketing__c})),AND({!$Record.No_Solicitation__c},ISCHANGED({!$Record.No_Solicitation__c})),AND({!$Record.DoNotCall},ISCHANGED({!$Record.DoNotCall})),AND(NOT({!$Record.Support_Updates__c}),ISCHANGED({!$Record.Support_Updates__c})),AND(ISCHANGED({!$Record.Contact_Status__c}),ISPICKVAL({!$Record.Contact_Status__c},&quot;Bereaved Family - on hold&quot;)),AND({!$Record.OtherCountry}=&quot;Australia&quot;,ISBLANK({!$Record.MailingCountry})))),AND(ISNEW(),OR({!$Record.Support_Personal_1_1_Only__c},{!$Record.npsp__Do_Not_Contact__c},{!$Record.HasOptedOutOfEmail},{!$Record.No_SMS__c},{!$Record.No_Telemarketing__c},{!$Record.No_Solicitation__c},{!$Record.DoNotCall},ISPICKVAL({!$Record.Contact_Status__c},&quot;Bereaved Family - on hold&quot;),AND({!$Record.OtherCountry}=&quot;Australia&quot;,ISBLANK({!$Record.MailingCountry})))),NOT(ISNULL({!$Record.Primary_Relationship_Manager__c})))</filterFormula>
         <object>Contact</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordBeforeSave</triggerType>

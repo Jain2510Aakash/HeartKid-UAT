@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Email__c</fullName>
+    <description>Not on page layout
+Collected during Dependent to Contact Conversion process only
+Supplied by Primary Contact on form submitted during above process
+Will map to &apos;Email&apos; field on new Contact created</description>
+    <externalId>false</externalId>
+    <label>Email</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Email</type>
+    <unique>false</unique>
+</CustomField>

@@ -17,27 +17,46 @@ global class RoleAssignmentTransferBatch implements Database.Batchable<SObject> 
     private String fieldName;
     private String fromUserId;
     private String toUserId;
+    private String mailingState;
     
     // Constructor to accept parameters
-    public RoleAssignmentTransferBatch(String objName, String fieldName, String fromUserId, String toUserId) {
+    public RoleAssignmentTransferBatch(String objName, String fieldName, String fromUserId, String toUserId, String mailingState) {
         this.objName = objName;
         this.fieldName = fieldName;
         this.fromUserId = fromUserId;
         this.toUserId = toUserId;
+        this.mailingState = mailingState;
+
+        system.debug('objName->'+this.objName);
+        system.debug('fieldName->'+this.fieldName);
+        system.debug('fromUserId->'+this.fromUserId);
+        system.debug('toUserId->'+this.toUserId);
+        system.debug('mailingState->'+this.mailingState);
     }
     
     // start method - prepares the query for the batch
     global Database.QueryLocator start(Database.BatchableContext BC) {
         
         String query = '';
-        if(Test.isRunningTest()){
-            query =  'SELECT Id, Primary_Relationship_Manager__c, OwnerId,Primary_Relationship_Manager__r.Name, Owner.Name FROM Account';
-            
-        }else{
-            query =  'SELECT Id, Primary_Relationship_Manager__c, OwnerId,Primary_Relationship_Manager__r.Name, Owner.Name FROM ' + objName +' WHERE ' + fieldName + ' = \'' + fromUserId + '\'';
-            
-        }
         
+        system.debug('mailingState->'+mailingState);
+        query =  'SELECT Id, Primary_Relationship_Manager__c, OwnerId,Primary_Relationship_Manager__r.Name, Owner.Name FROM ' + objName +' WHERE ' + fieldName + ' = \'' + fromUserId + '\'';
+        if(!string.isBlank(mailingState) && mailingState != 'N/A' && mailingState != 'ALL'){
+            system.debug('blank');
+            if(objName == 'Contact'){
+                query += ' AND MailingState =  \'' + mailingState + '\'';
+            }else if(objName == 'Account'){
+                query += ' AND BillingState =  \'' + mailingState + '\'';
+            }
+            
+        }else if(mailingState == 'N/A'){
+            system.debug('N/A');
+            if(objName == 'Contact'){
+                query += ' AND MailingState =  \'' + mailingState + '\'';
+            }else if(objName == 'Account'){
+                query += ' AND BillingState =  \'' + mailingState + '\'';
+            }             
+        }
         system.debug('query->'+query);
         return Database.getQueryLocator(query);
     }

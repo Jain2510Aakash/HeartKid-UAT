@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_Conv_Next_Contact_Date_is_Today__c</fullName>
+    <formula>Contact_Conversion_Next_Contact_Date__c = Today()</formula>
+    <label>Contact Conv_Next Contact Date is Today</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -2,6 +2,7 @@ import { LightningElement, track } from 'lwc';
 import getActiveStandardUsers from '@salesforce/apex/RoleAssignmentHelper.getActiveStandardUsers';
 import getFromUserList from '@salesforce/apex/RoleAssignmentHelper.getFromUserList';
 import transferRecords from '@salesforce/apex/RoleAssignmentHelper.transferRecords';
+import getInactiveUsersMailingState from '@salesforce/apex/RoleAssignmentHelper.getInactiveUsersMailingState';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class RoleAssignment extends LightningElement {
@@ -9,6 +10,8 @@ export default class RoleAssignment extends LightningElement {
     fieldName = '';
     fromUsersList = [];
     fromUser = '';
+    @track mailingState = '';
+    @track  mailingStateVal;
     parentField = '';
     toUserList = [];
     toUser = '';
@@ -16,6 +19,7 @@ export default class RoleAssignment extends LightningElement {
     prvObjName = '';
     prvFieldName = '';
     @track isLoading = false;
+    @track showMailingState = true;
 
     connectedCallback() {
         this.getActiveStandardUsers();
@@ -41,11 +45,34 @@ export default class RoleAssignment extends LightningElement {
 
 
     get fieldVal() {
-        return [
-            { label: 'PRM', value: 'Primary_Relationship_Manager__c' },
-            { label: 'Owner', value: 'OwnerId' },
-        ];
+        if (this.objName == 'Account') {
+            return [
+                { label: 'PRM', value: 'Primary_Relationship_Manager__c' },
+                { label: 'Owner', value: 'OwnerId' },
+            ];
+        } else if (this.objName == 'Contact') {
+            return [
+                { label: 'PRM', value: 'Primary_Relationship_Manager__c' },
+                { label: 'PSRM', value: 'Primary_Support_Relationship_Manager__c' },
+                { label: 'Owner', value: 'OwnerId' },
+            ];
+        }
+
     }
+
+    /*get mailingStateVal() {
+        return [
+            { label: 'WA', value: 'WA' },
+            { label: 'QLD', value: 'QLD' },
+            { label: 'NT', value: 'NT' },
+            { label: 'SA', value: 'SA' },
+            { label: 'NSW', value: 'NSW' },
+            { label: 'ACT', value: 'ACT' },
+            { label: 'VIC', value: 'VIC' },
+            { label: 'TAS', value: 'TAS' }
+        ];
+
+    }*/
 
     get isTransferDisabled() {
         return !(this.objName && this.fieldName && this.fromUser && this.toUser);
@@ -64,15 +91,27 @@ export default class RoleAssignment extends LightningElement {
             this.fieldName = '';
             this.fromUser = '';
             this.toUser = '';
+            this.mailingState = '';
+            /*if(this.objName == 'Contact'){
+                this.showMailingState = true;
+            }else{
+                this.showMailingState = false;
+                this.mailingState = '';
+            }*/
         } else if (name === 'field') {
             this.fieldName = value;
             this.fromUser = '';
             this.toUser = '';
+            this.mailingState = '';
         } else if (name === 'fromUser') {
             this.fromUser = value;
             this.toUser = '';
+            this.mailingState = '';
+            this.getMailingState();
         } else if (name === 'toUser') {
             this.toUser = value;
+        } else if (name === 'mailingState') {
+            this.mailingState = value;
         }
 
         console.log('name', this.objName);
@@ -123,7 +162,8 @@ export default class RoleAssignment extends LightningElement {
             objName: this.objName,
             fieldName: this.fieldName,
             fromUserId: this.fromUser,
-            toUserid: this.toUser
+            toUserid: this.toUser,
+            mailingState: this.mailingState
         })
             .then(result => {
                 this.parentField = this.fieldName.includes('__c')
@@ -166,5 +206,23 @@ export default class RoleAssignment extends LightningElement {
         this.parentField = '';
         this.prvObjName = '';
         this.prvFieldName = '';
+        this.mailingState = '';
+        this.toUser = '';
+    }
+    getMailingState() {
+        debugger;
+        getInactiveUsersMailingState({
+            objName: this.objName,
+            fieldName: this.fieldName,
+            fromUserId: this.fromUser // example User Id
+        })
+            .then(result => {
+                this.mailingStateVal = result;
+                console.log('Mailing states:', result);
+                console.log('Apex method executed successfully:', result);
+            })
+            .catch(error => {
+                console.error('Error calling Apex method:', error);
+            });
     }
 }

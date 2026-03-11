@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Aboriginal_Torres_Strait_Origin__c</fullName>
+    <description>Indicates Aboriginal or Torres Strait Islander origin</description>
+    <inlineHelpText>Indicates Aboriginal or Torres Strait Islander origin</inlineHelpText>
+    <label>Aboriginal/Torres Strait Origin</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Aboriginal_Torres_Strait_Islander_Origin</valueSetName>
+    </valueSet>
+</CustomField>

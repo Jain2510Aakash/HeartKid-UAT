@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_Conversion_Next_Contact_Date__c</fullName>
+    <description>Conversion to Contact was postponed by Primary Contact via Formstack form
+This date is 365 days from that postpone request
+On this date the next request to convert will be emailed</description>
+    <label>Contact Conversion Next Contact Date</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

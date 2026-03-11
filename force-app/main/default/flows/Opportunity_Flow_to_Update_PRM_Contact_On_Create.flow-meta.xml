@@ -486,7 +486,7 @@
         </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
     <variables>
         <name>IsBequest</name>
         <dataType>Boolean</dataType>

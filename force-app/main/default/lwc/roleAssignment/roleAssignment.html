@@ -1,6 +1,6 @@
 <template>
     <lightning-card title="Bulk Reassign Roles from Inactive to Active Users">
-        
+
         <template if:true={isLoading}>
             <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
         </template>
@@ -24,6 +24,15 @@
                            value={fromUser}   options={fromUsersList} onchange={handleChange}></lightning-combobox>
                     </div>
                 </lightning-layout-item>
+                <template lwc:if={showMailingState}>
+                    <lightning-layout-item flexibility="auto" padding="around-small">
+                        <div class="custom-box">
+                            <lightning-combobox name="mailingState" label="Select Mailing State"
+                                placeholder="Mailing State" value={mailingState} options={mailingStateVal}
+                                onchange={handleChange}></lightning-combobox>
+                        </div>
+                    </lightning-layout-item>
+                </template>
                 <lightning-layout-item flexibility="auto" padding="around-small">
                     <div class="custom-box">
                         <lightning-combobox name="toUser" label="Select Active User" placeholder="To User"
